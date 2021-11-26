@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
 import './App.css';
+import Navbar from "./components/Navbar/Navbar"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from './pages';
+import About from './pages/about';
+//import FetchPhotoFunction from './pages/fetchPhotoFunction';
+//import FetchPhotoClass from './pages/fetchPhotoClass';
+import UploadPhoto from './pages/advert/addAdvert';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+    <Navbar />
+    <Switch>
+      <Route path="/home" exact component={Home} />
+      <Route path="/about" component={About} />
+      {/* <Route path="/fetchPhotoFunction" component={FetchPhotoFunction} /> */}
+      {/* <Route path="/fetchPhotoClass" component={FetchPhotoClass} /> */}
+      <Route path="/uploadPhoto" component={UploadPhoto} />
+    </Switch>
+  </Router>
   );
 }
 
