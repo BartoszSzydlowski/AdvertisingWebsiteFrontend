@@ -19,16 +19,8 @@ const Navbar = () => {
             About
           </NavLink>
 
-          <NavLink to="/fetchPhotoFunction">
-            Fetch photos (function)
-          </NavLink>
-
-          <NavLink to="/fetchPhotoClass">
-            Fetch photos (class)
-          </NavLink>
-
-          <NavLink to="/uploadPhoto">
-            Upload photo
+          <NavLink to="/createAdvert">
+            Add new advert
           </NavLink>
 
         </NavMenu> 

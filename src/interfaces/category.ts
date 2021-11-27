@@ -1,4 +1,4 @@
-import Advert from "./advert";
+import Advert from "./adverts/advert";
 
 export default interface Category {
     name: string,

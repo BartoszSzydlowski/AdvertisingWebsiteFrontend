@@ -1,5 +1,5 @@
-import Category from "./category";
-import Picture from "./picture";
+import Category from "../category";
+import Picture from "../picture";
 
 export default interface Advert {
     name: string,
