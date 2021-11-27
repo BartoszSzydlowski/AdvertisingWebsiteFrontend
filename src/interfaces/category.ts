@@ -1,8 +1,8 @@
-import Advert from "./adverts/advert";
+import { Advert } from "./adverts/advert";
 
-export default interface Category {
-    name: string,
-    description: string,
-    userId: string,
-    adverts: Array<Advert>
+export interface Category {
+    id: number;
+    name: string;
+    description: string;
+    adverts: Array<Advert>;
 }
