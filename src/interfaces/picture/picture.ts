@@ -1,6 +1,6 @@
-import { Advert } from "./adverts/advert";
+import { Advert } from "../advert/advert";
 
-export default interface Picture {
+export interface Picture {
     id: string,
     uniqueName: string,
     path: string,

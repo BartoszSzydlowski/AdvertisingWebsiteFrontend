@@ -1,4 +1,4 @@
-import { Advert } from "./adverts/advert";
+import { Advert } from "../advert/advert";
 
 export interface Category {
     id: number;

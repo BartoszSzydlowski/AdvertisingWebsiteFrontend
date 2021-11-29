@@ -1,5 +1,5 @@
-import {Category} from "../category";
-import Picture from "../picture";
+import { Category } from "../category/category";
+import { Picture } from "../picture/picture";
 
 export interface Advert {
     name: string;

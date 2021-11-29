@@ -1,34 +1,54 @@
 import React, { useState } from "react";
 import Endpoints from "../../endpoints/endpoints";
 import TokenContainer from "../../endpoints/token";
-import { CreateAdvert } from "../../interfaces/adverts/advert"
+import { CreateAdvert } from "../../interfaces/advert/advert"
 import GetCategory from "../../components/Category/category";
+//import { Picture } from "../../interfaces/picture/picture";
+import axios from "axios";
 
-const Create = () => {
+const Create = (props: any) => {
   const [advert, setAdvert] = useState<CreateAdvert>({ name: '', description: '', price: 0, categoryId: 0 });
+  //const [pictures, setPictures] = useState<Picture[]>();
   const [isPending, setIsPending] = useState<boolean>(false);
 
-  console.log(advert);
+  //console.log(advert);
 
-  const submit = (e: any) => {
+  const addPicture = async (advertId: number) => {
+
+  }
+
+  const submit = async (e: any) => {
     e.preventDefault();
 
     setIsPending(true);
 
-    fetch(`${Endpoints.defaultEndpoint}/api/adverts`, {
-      method: 'POST',
+    // await fetch(`${Endpoints.defaultEndpoint}/api/adverts`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': `Bearer ${TokenContainer.Token}`
+    //   },
+    //   body: JSON.stringify(advert),
+    // })
+    // .then(res => res.json())
+    // .then(async newAdvert => {
+    //   setIsPending(false);
+    //   console.log(newAdvert.data.id);
+    //   await addPicture(newAdvert.data.id);
+    // })
+    // .catch(error => console.log(error));
+
+    await axios.post(`${Endpoints.defaultEndpoint}/api/adverts`,
+      JSON.stringify(advert), {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${TokenContainer.Token}`
-      },
-      body: JSON.stringify(advert),
+      }
     })
-    .then(res => res.json())
     .then(data => {
-      setIsPending(false)
-      console.log(data)
+      setIsPending(false);
+      console.log(data.data)
     })
-    .catch(error => console.log(error));
   }
 
   return (
@@ -66,6 +86,7 @@ const Create = () => {
         {!isPending && <button>Add advert</button>}
         {isPending && <button disabled>Adding advert</button>}
       </form>
+        <input type="button" value="+" id="addNew"/>
     </div>
   );
 }
