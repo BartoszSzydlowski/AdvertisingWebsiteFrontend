@@ -30,21 +30,6 @@ const Login = () => {
 				setIsPending(false);
 				console.log(error.response.data)
 			});
-		// fetch(`${Endpoints.defaultEndpoint}/api/Identity/Login`, {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// 	body: JSON.stringify(userLogin),
-		// })
-		// 	.then(res => res.json())
-		// 	.then(data => {
-		// 		setIsPending(false);
-		// 		console.log(data)
-		// 	})
-		// 	.catch(error => {
-		// 		console.log(error.type)
-		// 	})
 	};
 
   return (
