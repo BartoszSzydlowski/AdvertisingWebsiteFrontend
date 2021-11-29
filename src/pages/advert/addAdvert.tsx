@@ -6,7 +6,7 @@ import GetCategory from "../../components/Category/category";
 //import { Picture } from "../../interfaces/picture/picture";
 import axios from "axios";
 
-const Create = (props: any) => {
+const Create = () => {
   const [advert, setAdvert] = useState<CreateAdvert>({ name: '', description: '', price: 0, categoryId: 0 });
   const [isPending, setIsPending] = useState<boolean>(false);
 
@@ -20,16 +20,22 @@ const Create = (props: any) => {
     e.preventDefault();
     setIsPending(true);
 
+    var token = localStorage.getItem('Token');
+
     await axios.post(`${Endpoints.defaultEndpoint}/api/adverts`,
       JSON.stringify(advert), {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${TokenContainer.Token}`
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(data => {
       setIsPending(false);
       console.log(data.data)
+    })
+    .catch(error => {
+      setIsPending(false);
+      console.log(error.response.data);
     })
   }
 
