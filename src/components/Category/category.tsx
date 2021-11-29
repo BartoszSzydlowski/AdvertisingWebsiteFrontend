@@ -5,13 +5,10 @@ import axios from 'axios';
 
 const GetCategory = ({event}: any) => {
     const [categories, setCategories] = useState<Array<Category>>([]);
-    //const [selectedCategory, setSelectedCategory] = useState(props[0].value);
 
     useEffect(() => {
         axios.get(`${Endpoints.defaultEndpoint}/api/categories`)
-        //.then(res => res.json())
         .then(data => {
-            //console.log(data);
             setCategories(data.data);
         });
     }, [])

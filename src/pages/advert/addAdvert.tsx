@@ -8,7 +8,6 @@ import axios from "axios";
 
 const Create = (props: any) => {
   const [advert, setAdvert] = useState<CreateAdvert>({ name: '', description: '', price: 0, categoryId: 0 });
-  //const [pictures, setPictures] = useState<Picture[]>();
   const [isPending, setIsPending] = useState<boolean>(false);
 
   //console.log(advert);
@@ -19,24 +18,7 @@ const Create = (props: any) => {
 
   const submit = async (e: any) => {
     e.preventDefault();
-
     setIsPending(true);
-
-    // await fetch(`${Endpoints.defaultEndpoint}/api/adverts`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': `Bearer ${TokenContainer.Token}`
-    //   },
-    //   body: JSON.stringify(advert),
-    // })
-    // .then(res => res.json())
-    // .then(async newAdvert => {
-    //   setIsPending(false);
-    //   console.log(newAdvert.data.id);
-    //   await addPicture(newAdvert.data.id);
-    // })
-    // .catch(error => console.log(error));
 
     await axios.post(`${Endpoints.defaultEndpoint}/api/adverts`,
       JSON.stringify(advert), {

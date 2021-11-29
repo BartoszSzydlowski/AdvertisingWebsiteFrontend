@@ -23,6 +23,10 @@ const Navbar = () => {
             Add new advert
           </NavLink>
 
+          <NavLink to="/login">
+            Login
+          </NavLink>
+
         </NavMenu> 
       </Nav> 
     </>
