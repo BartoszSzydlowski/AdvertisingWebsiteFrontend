@@ -34,7 +34,7 @@ const Navbar = () => {
             Add new advert
           </NavLink>
 
-          { 
+          {
             !isLoggedIn ?
               <>
                 <NavLink to="/login">
@@ -46,7 +46,7 @@ const Navbar = () => {
                 </NavLink>
               </>
             :
-            <NavLink to="/logout">
+            <NavLink to="/logout" onClick={Logout}>
               Logout
             </NavLink>
           }
