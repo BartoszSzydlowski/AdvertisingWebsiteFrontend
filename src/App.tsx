@@ -16,6 +16,7 @@ function App() {
       <Route path="/about" component={About} />
       <Route path="/createAdvert" component={Create} />
       <Route path="/login" component={Login} />
+      {/* <Route path="/logout" component={Logout} /> */}
     </Switch>
   </Router>
   );

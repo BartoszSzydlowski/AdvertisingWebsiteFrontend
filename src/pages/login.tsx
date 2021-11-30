@@ -3,6 +3,7 @@ import { UserLogin } from "../interfaces/user/userLogin";
 import axios from "axios";
 import Endpoints from "../endpoints/endpoints";
 import { useHistory } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const Login = () => {
 
@@ -22,8 +23,7 @@ const Login = () => {
 			})
 			.then(res => {
 				setIsPending(false);
-				console.log(res.data);
-				localStorage.setItem('Token', res.data.token);
+				Cookies.set('Token', res.data.token, { expires: new Date(res.data.expiration) });
 				history.push('/home');
 			})
 			.catch(error => {

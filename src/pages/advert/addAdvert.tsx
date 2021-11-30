@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Endpoints from "../../endpoints/endpoints";
-import TokenContainer from "../../endpoints/token";
 import { CreateAdvert } from "../../interfaces/advert/advert"
 import GetCategory from "../../components/Category/category";
 //import { Picture } from "../../interfaces/picture/picture";

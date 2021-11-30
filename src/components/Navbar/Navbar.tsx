@@ -1,6 +1,17 @@
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
+import Logout from "../../pages/logout";
 import { Nav, NavLogo, NavLink, Bars, NavMenu, } from "./NavbarElements";
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getToken = Cookies.get('Token')
+    //console.log(getToken);
+    getToken ? setIsLoggedIn(() => true) :  setIsLoggedIn(() => false)
+  }, [])
+
   return (
     <>
       <Nav>
@@ -23,10 +34,22 @@ const Navbar = () => {
             Add new advert
           </NavLink>
 
-          <NavLink to="/login">
-            Login
-          </NavLink>
-
+          { 
+            !isLoggedIn ?
+              <>
+                <NavLink to="/login">
+                  Login
+                </NavLink>
+              
+                <NavLink to="/register">
+                  Register
+                </NavLink>
+              </>
+            :
+            <NavLink to="/logout">
+              Logout
+            </NavLink>
+          }
         </NavMenu> 
       </Nav> 
     </>
