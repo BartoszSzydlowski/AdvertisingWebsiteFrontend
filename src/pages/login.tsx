@@ -5,7 +5,8 @@ import Endpoints from "../endpoints/endpoints";
 import { useHistory } from "react-router-dom";
 import Cookies from 'js-cookie';
 
-const Login = ({props}: any) => {
+const Login = () => {
+
 	const [userLogin, setUserLogin] = useState<UserLogin>({username: '', password: ''});
   const [isPending, setIsPending] = useState<boolean>(false);
 
@@ -22,13 +23,12 @@ const Login = ({props}: any) => {
 			})
 			.then(res => {
 				setIsPending(false);
-				props(() => true);
 				Cookies.set('Token', res.data.token, { expires: new Date(res.data.expiration) });
 				history.push('/home');
 			})
 			.catch(error => {
 				setIsPending(false);
-				console.log(error)
+				console.log(error.response.data)
 			});
 	};
 

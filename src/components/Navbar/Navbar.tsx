@@ -1,15 +1,16 @@
 import Cookies from "js-cookie";
-import React, { useEffect, useState,  } from "react";
+import React, { useEffect, useState } from "react";
 import Logout from "../../pages/logout";
 import { Nav, NavLogo, NavLink, Bars, NavMenu, } from "./NavbarElements";
 
-const Navbar = ({props}: any) => {
+const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     const getToken = Cookies.get('Token')
-    getToken ? setIsLoggedIn(true) :  setIsLoggedIn(false)
-  }, [props, isLoggedIn])
+    //console.log(getToken);
+    getToken ? setIsLoggedIn(() => true) :  setIsLoggedIn(() => false)
+  }, [])
 
   return (
     <>
@@ -45,14 +46,9 @@ const Navbar = ({props}: any) => {
                 </NavLink>
               </>
             :
-            // <NavLink to="/logout" onClick={() => {
-            //   Cookies.remove('Token');
-            //   setIsLoggedIn(false);
-            //   return history.push('/home');
-            // }}>
-            //   Logout
-            // </NavLink>
-            <Logout props={setIsLoggedIn}/>
+            <NavLink to="/logout">
+              Logout
+            </NavLink>
           }
         </NavMenu> 
       </Nav> 
