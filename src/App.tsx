@@ -4,7 +4,7 @@ import Navbar from "./components/navbar/navbar"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from './pages';
 import About from './pages/about';
-import Create from "./pages/advert/addAdvert";
+import Create from "./pages/advert/addAdvertForm";
 import LoginForm from "./pages/loginForm";
 import Cookies from "js-cookie";
 
