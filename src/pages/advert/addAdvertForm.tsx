@@ -41,8 +41,51 @@ const Create = () => {
     return (
         <div>
             <form onSubmit={submit}>
-
-                <div>
+                <table style={{margin: '0 auto'}}>
+                    <tbody>
+                        <tr>
+                            <td style={{textAlign: 'left'}}>
+                                <label>Name: </label>
+                            </td>
+                            <td>
+                                <input type='text' value={advert.name}
+                                    onChange={e => setAdvert(prev => ({...prev, name: e.target.value}))}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{textAlign: 'left'}}>
+                                <label>Description: </label>
+                            </td>
+                            <td>
+                                <input type='text' value={advert.description}
+                                        onChange={e => setAdvert(prev => ({...prev, description: e.target.value}))}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{textAlign: 'left'}}>
+                                <label>Price: </label>
+                            </td>
+                            <td>
+                                <input type='text' value={advert.price}
+                                        onChange={e => setAdvert(prev => ({...prev, price: parseInt(e.target.value)}))}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{textAlign: 'left'}}>
+                                <label>Category: </label>
+                            </td>
+                            <td>
+                                <GetCategory  event={(e: any) => {
+                                    setAdvert(prev => ({...prev, categoryId: parseInt(e.target.value)}))
+                                }}/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                {/* <div>
                     <label>Name: </label>
                     <input type='text' value={advert.name}
                            onChange={e => setAdvert(prev => ({...prev, name: e.target.value}))}
@@ -69,7 +112,7 @@ const Create = () => {
                         setAdvert(prev => ({...prev, categoryId: parseInt(e.target.value)}))
                     }}
                     />
-                </div>
+                </div> */}
 
                 {!isPending && <button>Add advert</button>}
                 {isPending && <button disabled>Adding advert</button>}

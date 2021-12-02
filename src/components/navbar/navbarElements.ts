@@ -36,6 +36,19 @@ cursor: pointer;
 }
 `;
 
+export const LogoutNavLink = styled(Link)`
+color: #fff;
+display: flex;
+align-items: center;
+text-decoration: none;
+padding: 0 1rem;
+height: 100%;
+cursor: pointer;
+&:hover {
+  color: black;
+}
+`;
+
 export const Bars = styled(FaBars)`
   display: none;
   color: #fff;

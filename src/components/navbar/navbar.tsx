@@ -1,4 +1,4 @@
-import { Nav, NavLogo, NavLink, Bars, NavMenu, } from "./navbarElements";
+import { Nav, NavLogo, NavLink, Bars, NavMenu, LogoutNavLink, } from "./navbarElements";
 
 const Navbar = (props: any) => {
     return (
@@ -34,9 +34,9 @@ const Navbar = (props: any) => {
                             </NavLink>
                         </>
                         ) : (
-                        <NavLink to="/logout" onClick={props.logout()}>
+                        <LogoutNavLink to="/home" onClick={props.logout()}>
                             Logout
-                        </NavLink>
+                        </LogoutNavLink>
                     )}
                 </NavMenu>
             </Nav>

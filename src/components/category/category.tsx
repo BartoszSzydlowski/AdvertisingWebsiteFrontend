@@ -14,7 +14,7 @@ const GetCategory = ({event}: any) => {
     }, [])
 
     return (
-        <select onChange={event}>
+        <select style={{width: '100%'}} onChange={event}>
             {categories && categories.map(el =>
                 <option key={el.id.toString()} id={el.id.toString()} value={el.id}>{el.name}</option>
             )}

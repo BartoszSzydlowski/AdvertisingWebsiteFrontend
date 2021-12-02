@@ -15,7 +15,7 @@ function App() {
         if(Cookies.get('Token')){
             setIsLoggedIn(true);
         }
-    }, []);
+    }, [isLoggedIn]);
 
     const handleLogin = (token: any, expiration: any) => {
         if(!token) {
