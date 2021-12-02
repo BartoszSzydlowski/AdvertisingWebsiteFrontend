@@ -7,6 +7,7 @@ import About from './pages/about';
 import Create from "./pages/advert/addAdvertForm";
 import LoginForm from "./pages/loginForm";
 import Cookies from "js-cookie";
+import RegisterForm from "./pages/registerForm";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -35,10 +36,11 @@ function App() {
             <Router>
                 <Navbar isLoggedIn={isLoggedIn} logout={handleLogout}/>
                 <Switch>
-                    <Route path="/home" exact component={Home}/>
-                    <Route path="/about" component={About}/>
-                    <Route path="/createAdvert" component={Create}/>
-                    <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/about" component={About}/>
+                    <Route exact path="/createAdvert" component={Create}/>
+                    <Route exact path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route exact path="/register" component={RegisterForm}/>
                 </Switch>
             </Router>
         </div>

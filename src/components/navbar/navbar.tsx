@@ -1,17 +1,17 @@
-import { Nav, NavLogo, NavLink, Bars, NavMenu, LogoutNavLink, } from "./navbarElements";
+import { Nav, NavLogo, NavLink, Bars, NavMenu, LogoutNavLink } from "./navbarElements";
 
 const Navbar = (props: any) => {
     return (
         <>
             <Nav>
                 <NavLogo to="/">
-                    Logo
+                    
                 </NavLogo>
 
                 <Bars/>
 
                 <NavMenu>
-                    <NavLink to="/home">
+                    <NavLink to="/">
                         Home
                     </NavLink>
 

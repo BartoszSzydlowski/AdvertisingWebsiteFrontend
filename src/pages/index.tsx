@@ -6,7 +6,7 @@ const Home = () => {
             alignItems: 'center',
             height: '100vh'
         }}>
-            <h1>Welcome to our website!</h1>
+            <h1>Home</h1>
         </div>
     );
 };

@@ -35,21 +35,20 @@ const LoginForm = ({handleLogin, setIsLoggedIn}: any) => {
     return (
         <div>
             <form onSubmit={auth}>
-
                 <div>
-                    <input type='text' placeholder='Nazwa użytkownika' value={userLogin.username}
+                    <input type='text' placeholder='Username' value={userLogin.username}
                            onChange={e => setUserLogin(prev => ({...prev, username: e.target.value}))}
                     />
                 </div>
 
                 <div>
-                    <input type='password' placeholder='Hasło' value={userLogin.password}
+                    <input type='password' placeholder='Password' value={userLogin.password}
                            onChange={e => setUserLogin(prev => ({...prev, password: e.target.value}))}
                     />
                 </div>
 
-                {!isPending && <button>Zaloguj się</button>}
-                {isPending && <button disabled>Logowanie w toku</button>}
+                {!isPending && <button>Login</button>}
+                {isPending && <button disabled>Login in progress</button>}
 
             </form>
         </div>
