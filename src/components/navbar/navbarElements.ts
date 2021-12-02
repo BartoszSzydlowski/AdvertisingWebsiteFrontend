@@ -11,6 +11,7 @@ export const Nav = styled.nav`
     padding: 0.2rem calc((100vw - 1000px) / 2);
     z-index: 12;
 `;
+
 export const NavLogo = styled(Link)`
   cursor: pointer;
   color: #fff;

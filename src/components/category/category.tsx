@@ -8,12 +8,12 @@ const GetCategory = ({event}: any) => {
 
     useEffect(() => {
         axios.get(`${Endpoints.defaultEndpoint}/api/categories`)
-        .then(data => {
-            setCategories(data.data);
-        });
+            .then(data => {
+                setCategories(data.data);
+            });
     }, [])
-    
-    return(
+
+    return (
         <select onChange={event}>
             {categories && categories.map(el =>
                 <option key={el.id.toString()} id={el.id.toString()} value={el.id}>{el.name}</option>
