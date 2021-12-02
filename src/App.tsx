@@ -5,19 +5,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from './pages';
 import About from './pages/about';
 import Create from "./pages/advert/addAdvert";
-import Login from "./pages/login";
+import LoginForm from "./pages/loginForm";
 import Cookies from "js-cookie";
-import { useCookies, withCookies } from "react-cookie";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [cookies, setCookie, removeCookie] = useCookies(['Token']);
 
     useEffect(() => {
-        // if(localStorage.getItem('Token')) {
-        //     setIsLoggedIn(true);
-        // }
-        if(cookies['Token']){
+        if(Cookies.get('Token')){
             setIsLoggedIn(true);
         }
     }, []);
@@ -26,17 +21,13 @@ function App() {
         if(!token) {
             return
         };
-        //Cookies.set('Token', token, {expires: new Date(expiration)});
-        setCookie('Token', token, {expires: new Date(expiration)})
-        //localStorage.setItem('Token', token);
+        Cookies.set('Token', token, {expires: new Date(expiration)});
         setIsLoggedIn(true);
     };
 
     const handleLogout = () => () => {
         setIsLoggedIn(false);
-        //Cookies.remove('Token', { path: '/Z', domain: 'localhost' })
-        removeCookie('Token');
-        //localStorage.clear();
+        Cookies.remove('Token');
     };
 
     return (
@@ -47,7 +38,7 @@ function App() {
                     <Route path="/home" exact component={Home}/>
                     <Route path="/about" component={About}/>
                     <Route path="/createAdvert" component={Create}/>
-                    <Route path="/login" component={(props: any) => <Login {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn}/>}/>
                 </Switch>
             </Router>
         </div>

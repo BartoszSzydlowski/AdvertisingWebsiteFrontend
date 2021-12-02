@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { UserLogin } from "../interfaces/user/userLogin";
+import { LoginModel } from "../interfaces/user/user";
 import axios from "axios";
 import Endpoints from "../endpoints/endpoints";
 import { useHistory } from "react-router-dom";
-import Cookies from 'js-cookie';
-import { useCookies } from "react-cookie";
 
-const Login = ({handleLogin, setIsLoggedIn}: any) => {
-    const [userLogin, setUserLogin] = useState<UserLogin>({username: '', password: ''});
+const LoginForm = ({handleLogin, setIsLoggedIn}: any) => {
+    const [userLogin, setUserLogin] = useState<LoginModel>({username: '', password: ''});
     const [isPending, setIsPending] = useState<boolean>(false);
-    //const [cookies, setCookie, removeCookie] = useCookies(['Token']);
 
     const history = useHistory();
 
@@ -24,11 +21,7 @@ const Login = ({handleLogin, setIsLoggedIn}: any) => {
             })
             .then(res => {
                 setIsPending(false);
-                //props(() => true);
                 setIsLoggedIn(true);
-                //Cookies.set('Token', res.data.token, {path: '', expires: new Date(res.data.expiration)});
-                //localStorage.setItem('Token', res.data.token);
-                //setCookie('Token', res.data.token, {expires: new Date(res.data.expiration)})
                 console.log(res.data);
                 handleLogin(res.data.token, res.data.expiration);
                 history.push('/home');
@@ -63,4 +56,4 @@ const Login = ({handleLogin, setIsLoggedIn}: any) => {
     );
 };
 
-export default Login;
+export default LoginForm;

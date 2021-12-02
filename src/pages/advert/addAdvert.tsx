@@ -4,6 +4,7 @@ import { CreateAdvert } from "../../interfaces/advert/advert"
 import GetCategory from "../../components/category/category";
 //import { Picture } from "../../interfaces/picture/picture";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const Create = () => {
     const [advert, setAdvert] = useState<CreateAdvert>({name: '', description: '', price: 0, categoryId: 0});
@@ -19,7 +20,7 @@ const Create = () => {
         e.preventDefault();
         setIsPending(true);
 
-        var token = localStorage.getItem('Token');
+        var token = Cookies.get('Token');
 
         await axios.post(`${Endpoints.defaultEndpoint}/api/adverts`,
             JSON.stringify(advert), {
