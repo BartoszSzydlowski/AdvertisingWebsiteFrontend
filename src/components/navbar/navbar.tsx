@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState, } from "react";
-import { Nav, NavLogo, NavLink, Bars, NavMenu, } from "./NavbarElements";
+import { Nav, NavLogo, NavLink, Bars, NavMenu, } from "./navbarElements";
 
 const Navbar = (props: any) => {
     return (

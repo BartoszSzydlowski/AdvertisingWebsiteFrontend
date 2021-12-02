@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Endpoints from "../../endpoints/endpoints";
 import { CreateAdvert } from "../../interfaces/advert/advert"
-import GetCategory from "../../components/Category/category";
+import GetCategory from "../../components/category/category";
 //import { Picture } from "../../interfaces/picture/picture";
 import axios from "axios";
 
