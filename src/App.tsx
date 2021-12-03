@@ -26,7 +26,7 @@ function App() {
         setIsLoggedIn(true);
     };
 
-    const handleLogout = () => () => {
+    const handleLogout = () => {
         setIsLoggedIn(false);
         Cookies.remove('Token');
     };
@@ -37,10 +37,10 @@ function App() {
                 <Navbar isLoggedIn={isLoggedIn} logout={handleLogout}/>
                 <Switch>
                     <Route exact path="/" component={Home}/>
-                    <Route exact path="/about" component={About}/>
-                    <Route exact path="/createAdvert" component={Create}/>
-                    <Route exact path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn}/>}/>
-                    <Route exact path="/register" component={RegisterForm}/>
+                    <Route path="/about" component={About}/>
+                    <Route path="/createAdvert" component={Create}/>
+                    <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/register" component={RegisterForm}/>
                 </Switch>
             </Router>
         </div>

@@ -11,7 +11,7 @@ const Navbar = (props: any) => {
                 <Bars/>
 
                 <NavMenu>
-                    <NavLink to="/">
+                    <NavLink exact to="/">
                         Home
                     </NavLink>
 

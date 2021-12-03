@@ -2,6 +2,7 @@ import { Category } from "../category/category";
 import { Picture } from "../picture/picture";
 
 export interface Advert {
+    id: number;
     name: string;
     description: string;
     price: number;
