@@ -11,7 +11,7 @@ const GetCategory = ({event}: any) => {
             .then(data => {
                 setCategories(data.data);
             });
-    }, [])
+    }, []);
 
     return (
         <select style={{width: '100%'}} onChange={event}>
@@ -19,7 +19,7 @@ const GetCategory = ({event}: any) => {
                 <option key={el.id.toString()} id={el.id.toString()} value={el.id}>{el.name}</option>
             )}
         </select>
-    )
-}
+    );
+};
 
 export default GetCategory;

@@ -1,4 +1,4 @@
-import { Advert } from "../advert/advert";
+import { Advert } from '../advert/advert';
 
 export interface Picture {
     id: string;

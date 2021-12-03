@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Endpoints from "../../endpoints/endpoints";
-import { CreateAdvert } from "../../interfaces/advert/advert"
-import GetCategory from "../../components/category/category";
-import axios from "axios";
-import Cookies from "js-cookie";
+import React, { useState } from 'react';
+import Endpoints from '../../endpoints/endpoints';
+import { CreateAdvert } from '../../interfaces/advert/advert';
+import GetCategory from '../../components/category/category';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Create = () => {
     const [advert, setAdvert] = useState<CreateAdvert>({name: '', description: '', price: 0, categoryId: 0});
@@ -11,15 +11,15 @@ const Create = () => {
 
     //console.log(advert);
 
-    const addPicture = async (advertId: number) => {
+    // const addPicture = async (advertId: number) => {
 
-    }
+    // };
 
     const submit = async (e: any) => {
         e.preventDefault();
         setIsPending(true);
 
-        var token = Cookies.get('Token');
+        const token = Cookies.get('Token');
 
         await axios.post(`${Endpoints.defaultEndpoint}/api/adverts`,
             JSON.stringify(advert), {
@@ -30,13 +30,13 @@ const Create = () => {
             })
             .then(data => {
                 setIsPending(false);
-                console.log(data.data)
+                console.log(data.data);
             })
             .catch(error => {
                 setIsPending(false);
                 console.log(error.response.data);
-            })
-    }
+            });
+    };
 
     return (
         <div>
@@ -59,7 +59,7 @@ const Create = () => {
                             </td>
                             <td>
                                 <input type='text' value={advert.description}
-                                        onChange={e => setAdvert(prev => ({...prev, description: e.target.value}))}
+                                    onChange={e => setAdvert(prev => ({...prev, description: e.target.value}))}
                                 />
                             </td>
                         </tr>
@@ -69,7 +69,7 @@ const Create = () => {
                             </td>
                             <td>
                                 <input type='text' value={advert.price}
-                                        onChange={e => setAdvert(prev => ({...prev, price: parseInt(e.target.value)}))}
+                                    onChange={e => setAdvert(prev => ({...prev, price: parseInt(e.target.value)}))}
                                 />
                             </td>
                         </tr>
@@ -79,7 +79,7 @@ const Create = () => {
                             </td>
                             <td>
                                 <GetCategory  event={(e: any) => {
-                                    setAdvert(prev => ({...prev, categoryId: parseInt(e.target.value)}))
+                                    setAdvert(prev => ({...prev, categoryId: parseInt(e.target.value)}));
                                 }}/>
                             </td>
                         </tr>
@@ -120,6 +120,6 @@ const Create = () => {
             <input type="button" value="+" id="addNew"/>
         </div>
     );
-}
+};
 
 export default Create;

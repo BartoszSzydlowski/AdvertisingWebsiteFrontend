@@ -1,5 +1,5 @@
-import { Category } from "../category/category";
-import { Picture } from "../picture/picture";
+import { Category } from '../category/category';
+import { Picture } from '../picture/picture';
 
 export interface Advert {
     id: number;
