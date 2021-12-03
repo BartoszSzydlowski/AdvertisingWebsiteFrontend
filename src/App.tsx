@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import Navbar from "./components/navbar/navbar"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Navbar from './components/navbar/navbar';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages';
 import About from './pages/about';
-import Create from "./pages/advert/addAdvertForm";
-import LoginForm from "./pages/loginForm";
-import Cookies from "js-cookie";
-import RegisterForm from "./pages/registerForm";
+import Create from './pages/advert/addAdvertForm';
+import LoginForm from './pages/loginForm';
+import Cookies from 'js-cookie';
+import RegisterForm from './pages/registerForm';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -20,13 +20,13 @@ function App() {
 
     const handleLogin = (token: any, expiration: any) => {
         if(!token) {
-            return
-        };
+            return;
+        }
         Cookies.set('Token', token, {expires: new Date(expiration)});
         setIsLoggedIn(true);
     };
 
-    const handleLogout = () => {
+    const handleLogout = () => () => {
         setIsLoggedIn(false);
         Cookies.remove('Token');
     };

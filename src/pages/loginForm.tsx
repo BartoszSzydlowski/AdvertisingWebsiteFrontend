@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { LoginModel } from "../interfaces/user/user";
-import axios from "axios";
-import Endpoints from "../endpoints/endpoints";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { LoginModel } from '../interfaces/user/user';
+import axios from 'axios';
+import Endpoints from '../endpoints/endpoints';
+import { useHistory } from 'react-router-dom';
 
 const LoginForm = ({handleLogin, setIsLoggedIn}: any) => {
     const [userLogin, setUserLogin] = useState<LoginModel>({username: '', password: ''});
@@ -28,7 +28,7 @@ const LoginForm = ({handleLogin, setIsLoggedIn}: any) => {
             })
             .catch(error => {
                 setIsPending(false);
-                console.log(error)
+                console.log(error);
             });
     };
 
@@ -37,13 +37,13 @@ const LoginForm = ({handleLogin, setIsLoggedIn}: any) => {
             <form onSubmit={auth}>
                 <div>
                     <input type='text' placeholder='Username' value={userLogin.username}
-                           onChange={e => setUserLogin(prev => ({...prev, username: e.target.value}))}
+                        onChange={e => setUserLogin(prev => ({...prev, username: e.target.value}))}
                     />
                 </div>
 
                 <div>
                     <input type='password' placeholder='Password' value={userLogin.password}
-                           onChange={e => setUserLogin(prev => ({...prev, password: e.target.value}))}
+                        onChange={e => setUserLogin(prev => ({...prev, password: e.target.value}))}
                     />
                 </div>
 
