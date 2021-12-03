@@ -31,11 +31,12 @@ const Home = () => {
     } else {
         return (
             <div 
-                style={{
-                    display: 'block',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh'}}
+                // style={{
+                //     display: 'block',
+                //     justifyContent: 'center',
+                //     alignItems: 'center',
+                //     height: '100vh'}}
+                style={{margin: '5px'}}
             >
                 {adverts.map(advert => {
                     return (
