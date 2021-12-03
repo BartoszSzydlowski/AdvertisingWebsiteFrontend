@@ -26,7 +26,7 @@ function App() {
         setIsLoggedIn(true);
     };
 
-    const handleLogout = () => {
+    const handleLogout = () => () => {
         setIsLoggedIn(false);
         Cookies.remove('Token');
     };

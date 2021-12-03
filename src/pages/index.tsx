@@ -5,20 +5,8 @@ import { Advert } from '../interfaces/advert/advert';
 
 const Home = () => {
     const [adverts, setAdverts] = useState<Array<Advert>>([]);
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    // const getAdverts = () => {
-    //     axios.get(`${Endpoints.defaultEndpoint}/api/Adverts`)
-    //         .then(response => {
-    //             setIsLoaded(true);
-    //             setAdverts(response.data);
-    //         })
-    //         .catch(error => {
-    //             setIsLoaded(false);
-    //             setError(error);
-    //         });
-    // }
+    const [error, setError] = useState<any>('');
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
     
     const getAdverts = () => {
         axios.get(`${Endpoints.defaultEndpoint}/api/Adverts`)
@@ -37,7 +25,7 @@ const Home = () => {
     }, []);
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div>{error.message}</div>;
     } else if (!isLoaded) {
         return <div>Loading adverts...</div>;
     } else {
@@ -52,16 +40,13 @@ const Home = () => {
                 {adverts.map(advert => {
                     return (
                         <div key={`${advert.id}`} id={`${advert.id}`}>
-                            {advert.description}
+                            {advert.name}
                         </div>
                     );
                 })}
             </div>
         );
     }
-
-
-    
 };
 
 export default Home;
