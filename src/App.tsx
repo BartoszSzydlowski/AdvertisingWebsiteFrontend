@@ -10,41 +10,50 @@ import Cookies from 'js-cookie';
 import RegisterForm from './pages/registerForm';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-    useEffect(() => {
-        if(Cookies.get('Token')){
-            setIsLoggedIn(true);
-        }
-    }, [isLoggedIn]);
+  useEffect(() => {
+    if (Cookies.get('Token')) {
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
 
-    const handleLogin = (token: any, expiration: any) => {
-        if(!token) {
-            return;
-        }
-        Cookies.set('Token', token, {expires: new Date(expiration)});
-        setIsLoggedIn(true);
-    };
+  const handleLogin = (token: any, expiration: any) => {
+    if (!token) {
+      return;
+    }
+    Cookies.set('Token', token, { expires: new Date(expiration) });
+    setIsLoggedIn(true);
+  };
 
-    const handleLogout = () => () => {
-        setIsLoggedIn(false);
-        Cookies.remove('Token');
-    };
+  const handleLogout = () => () => {
+    setIsLoggedIn(false);
+    Cookies.remove('Token');
+  };
 
-    return (
-        <div className='App'>
-            <Router>
-                <Navbar isLoggedIn={isLoggedIn} logout={handleLogout}/>
-                <Switch>
-                    <Route exact path="/" component={Home}/>
-                    <Route path="/about" component={About}/>
-                    <Route path="/createAdvert" component={Create}/>
-                    <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn}/>}/>
-                    <Route path="/register" component={RegisterForm}/>
-                </Switch>
-            </Router>
-        </div>
-    );
+  return (
+    <div className="App">
+      <Router>
+        <Navbar isLoggedIn={isLoggedIn} logout={handleLogout} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/createAdvert" component={Create} />
+          <Route
+            path="/login"
+            component={(props: any) => (
+              <LoginForm
+                {...props}
+                handleLogin={handleLogin}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            )}
+          />
+          <Route path="/register" component={RegisterForm} />
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
