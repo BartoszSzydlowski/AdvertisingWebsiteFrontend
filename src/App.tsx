@@ -39,16 +39,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/createAdvert" component={Create} />
-          <Route
-            path="/login"
-            component={(props: any) => (
-              <LoginForm
-                {...props}
-                handleLogin={handleLogin}
-                setIsLoggedIn={setIsLoggedIn}
-              />
-            )}
-          />
+          <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/register" component={RegisterForm} />
         </Switch>
       </Router>

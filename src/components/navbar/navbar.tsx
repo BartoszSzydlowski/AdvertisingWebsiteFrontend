@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Nav,
-  NavLogo,
-  NavLink,
-  Bars,
-  NavMenu,
-  LogoutNavLink,
-} from './navbarElements';
+import { Nav, NavLogo, NavLink, Bars, NavMenu, LogoutNavLink } from './navbarElements';
 
 const Navbar = (props: any) => {
   return (

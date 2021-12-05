@@ -27,16 +27,12 @@ const Create = () => {
     const token = Cookies.get('Token');
 
     await axios
-      .post(
-        `${Endpoints.defaultEndpoint}/api/adverts`,
-        JSON.stringify(advert),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .post(`${Endpoints.defaultEndpoint}/api/adverts`, JSON.stringify(advert), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((data) => {
         setIsPending(false);
         console.log(data.data);
@@ -57,13 +53,7 @@ const Create = () => {
                 <label>Name: </label>
               </td>
               <td>
-                <input
-                  type="text"
-                  value={advert.name}
-                  onChange={(e) =>
-                    setAdvert((prev) => ({ ...prev, name: e.target.value }))
-                  }
-                />
+                <input type="text" value={advert.name} onChange={(e) => setAdvert((prev) => ({ ...prev, name: e.target.value }))} />
               </td>
             </tr>
             <tr>
