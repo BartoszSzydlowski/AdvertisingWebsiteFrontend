@@ -20,10 +20,10 @@ const RegisterForm = () => {
           'Content-Type': 'application/json',
         },
       })
-      .then((res) => {
+      .then(res => {
         setIsPending(false);
       })
-      .catch((error) => {
+      .catch(error => {
         setIsPending(false);
         console.log(error);
       });
@@ -33,15 +33,15 @@ const RegisterForm = () => {
     <div>
       <form onSubmit={register}>
         <div>
-          <input type="text" placeholder="Username" value={newUser.username} onChange={(e) => setNewUser((prev) => ({ ...prev, username: e.target.value }))} />
+          <input type="text" placeholder="Username" value={newUser.username} onChange={e => setNewUser(prev => ({ ...prev, username: e.target.value }))} />
         </div>
 
         <div>
-          <input type="email" placeholder="E-mail" value={newUser.password} onChange={(e) => setNewUser((prev) => ({ ...prev, email: e.target.value }))} />
+          <input type="email" placeholder="E-mail" value={newUser.password} onChange={e => setNewUser(prev => ({ ...prev, email: e.target.value }))} />
         </div>
 
         <div>
-          <input type="password" placeholder="Password" value={newUser.password} onChange={(e) => setNewUser((prev) => ({ ...prev, password: e.target.value }))} />
+          <input type="password" placeholder="Password" value={newUser.password} onChange={e => setNewUser(prev => ({ ...prev, password: e.target.value }))} />
         </div>
 
         {!isPending && <button>Register</button>}

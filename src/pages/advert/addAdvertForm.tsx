@@ -33,11 +33,11 @@ const Create = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((data) => {
+      .then(data => {
         setIsPending(false);
         console.log(data.data);
       })
-      .catch((error) => {
+      .catch(error => {
         setIsPending(false);
         console.log(error.response.data);
       });
@@ -53,7 +53,7 @@ const Create = () => {
                 <label>Name: </label>
               </td>
               <td>
-                <input type="text" value={advert.name} onChange={(e) => setAdvert((prev) => ({ ...prev, name: e.target.value }))} />
+                <input type="text" value={advert.name} onChange={e => setAdvert(prev => ({ ...prev, name: e.target.value }))} />
               </td>
             </tr>
             <tr>
@@ -64,8 +64,8 @@ const Create = () => {
                 <input
                   type="text"
                   value={advert.description}
-                  onChange={(e) =>
-                    setAdvert((prev) => ({
+                  onChange={e =>
+                    setAdvert(prev => ({
                       ...prev,
                       description: e.target.value,
                     }))
@@ -81,8 +81,8 @@ const Create = () => {
                 <input
                   type="text"
                   value={advert.price}
-                  onChange={(e) =>
-                    setAdvert((prev) => ({
+                  onChange={e =>
+                    setAdvert(prev => ({
                       ...prev,
                       price: parseInt(e.target.value),
                     }))
@@ -97,7 +97,7 @@ const Create = () => {
               <td>
                 <GetCategory
                   event={(e: any) => {
-                    setAdvert((prev) => ({
+                    setAdvert(prev => ({
                       ...prev,
                       categoryId: parseInt(e.target.value),
                     }));

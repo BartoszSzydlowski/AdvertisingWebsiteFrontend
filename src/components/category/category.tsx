@@ -7,7 +7,7 @@ const GetCategory = ({ event }: any) => {
   const [categories, setCategories] = useState<Array<Category>>([]);
 
   useEffect(() => {
-    axios.get(`${Endpoints.defaultEndpoint}/api/categories`).then((data) => {
+    axios.get(`${Endpoints.defaultEndpoint}/api/categories`).then(data => {
       setCategories(data.data);
     });
   }, []);
@@ -15,7 +15,7 @@ const GetCategory = ({ event }: any) => {
   return (
     <select style={{ width: '100%' }} onChange={event}>
       {categories &&
-        categories.map((el) => (
+        categories.map(el => (
           <option key={el.id.toString()} id={el.id.toString()} value={el.id}>
             {el.name}
           </option>

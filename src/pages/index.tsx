@@ -11,11 +11,11 @@ const Home = () => {
   const getAdverts = () => {
     axios
       .get(`${Endpoints.defaultEndpoint}/api/Adverts`)
-      .then((response) => {
+      .then(response => {
         setIsLoaded(true);
         setAdverts(response.data);
       })
-      .catch((error) => {
+      .catch(error => {
         setIsLoaded(false);
         setError(error);
       });
@@ -39,7 +39,7 @@ const Home = () => {
         //     height: '100vh'}}
         style={{ margin: '5px' }}
       >
-        {adverts.map((advert) => {
+        {adverts.map(advert => {
           return (
             <div key={`${advert.id}`} id={`${advert.id}`}>
               {advert.name}
