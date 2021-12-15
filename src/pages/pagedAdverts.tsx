@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Endpoints from '../endpoints/endpoints';
 import { Advert } from '../interfaces/advert/advert';
 
-const Home = () => {
+const PagedAdverts = () => {
   const [adverts, setAdverts] = useState<Array<Advert>>([]);
   const [error, setError] = useState<any>('');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -31,14 +31,7 @@ const Home = () => {
     return <div>Loading adverts...</div>;
   } else {
     return (
-      <div
-        // style={{
-        //     display: 'block',
-        //     justifyContent: 'center',
-        //     alignItems: 'center',
-        //     height: '100vh'}}
-        style={{ margin: '5px' }}
-      >
+      <div style={{ margin: '5px' }}>
         {adverts.map(advert => {
           return (
             <div key={`${advert.id}`} id={`${advert.id}`}>
@@ -51,4 +44,4 @@ const Home = () => {
   }
 };
 
-export default Home;
+export default PagedAdverts;

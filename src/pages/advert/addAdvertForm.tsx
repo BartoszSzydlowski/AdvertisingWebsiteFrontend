@@ -4,21 +4,42 @@ import { CreateAdvert } from '../../interfaces/advert/advert';
 import GetCategory from '../../components/category/category';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Input from '../../components/photoInput/photoInput';
 
 const Create = () => {
   const [advert, setAdvert] = useState<CreateAdvert>({
     name: '',
     description: '',
     price: 0,
-    categoryId: 0,
+    categoryId: 1
   });
   const [isPending, setIsPending] = useState<boolean>(false);
+  const [inputList, setInputList] = useState<any>([]);
 
   //console.log(advert);
 
-  // const addPicture = async (advertId: number) => {
+  const addPicture = async (advertId: any) => {
+    const pictures = document.getElementsByClassName('files');
+    const formData = new FormData();
+    const token = Cookies.get('Token');
+    Array.prototype.forEach.call(pictures, picture => {
+      formData.append('files', picture.files[0], picture.files[0].filename);
+    });
 
-  // };
+    await axios
+      .post(`${Endpoints.defaultEndpoint}/api/pictures?` + new URLSearchParams({ advertId: advertId }), formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(data => {
+        console.log(data.data);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
 
   const submit = async (e: any) => {
     e.preventDefault();
@@ -30,21 +51,26 @@ const Create = () => {
       .post(`${Endpoints.defaultEndpoint}/api/adverts`, JSON.stringify(advert), {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       })
-      .then(data => {
+      .then(async data => {
+        await addPicture(data.data.data.id);
         setIsPending(false);
-        console.log(data.data);
+        //console.log(data.data.data.id);
       })
       .catch(error => {
         setIsPending(false);
-        console.log(error.response.data);
+        console.log(error);
       });
   };
 
+  const addPhotoInput = (event: any) => {
+    setInputList(inputList.concat(<Input key={inputList.length} />));
+  };
+
   return (
-    <div>
+    <div style={{ margin: '5px' }}>
       <form onSubmit={submit}>
         <table style={{ margin: '0 auto' }}>
           <tbody>
@@ -61,16 +87,7 @@ const Create = () => {
                 <label>Description: </label>
               </td>
               <td>
-                <input
-                  type="text"
-                  value={advert.description}
-                  onChange={e =>
-                    setAdvert(prev => ({
-                      ...prev,
-                      description: e.target.value,
-                    }))
-                  }
-                />
+                <input type="text" value={advert.description} onChange={e => setAdvert(prev => ({ ...prev, description: e.target.value }))} />
               </td>
             </tr>
             <tr>
@@ -78,16 +95,7 @@ const Create = () => {
                 <label>Price: </label>
               </td>
               <td>
-                <input
-                  type="text"
-                  value={advert.price}
-                  onChange={e =>
-                    setAdvert(prev => ({
-                      ...prev,
-                      price: parseInt(e.target.value),
-                    }))
-                  }
-                />
+                <input type="text" value={advert.price} onChange={e => setAdvert(prev => ({ ...prev, price: parseInt(e.target.value) }))} />
               </td>
             </tr>
             <tr>
@@ -97,49 +105,18 @@ const Create = () => {
               <td>
                 <GetCategory
                   event={(e: any) => {
-                    setAdvert(prev => ({
-                      ...prev,
-                      categoryId: parseInt(e.target.value),
-                    }));
+                    setAdvert(prev => ({ ...prev, categoryId: parseInt(e.target.value) }));
                   }}
                 />
               </td>
             </tr>
           </tbody>
         </table>
-        {/* <div>
-                    <label>Name: </label>
-                    <input type='text' value={advert.name}
-                           onChange={e => setAdvert(prev => ({...prev, name: e.target.value}))}
-                    />
-                </div>
-
-                <div>
-                    <label>Description: </label>
-                    <input type='text' value={advert.description}
-                           onChange={e => setAdvert(prev => ({...prev, description: e.target.value}))}
-                    />
-                </div>
-
-                <div>
-                    <label>Price: </label>
-                    <input type='text' value={advert.price}
-                           onChange={e => setAdvert(prev => ({...prev, price: parseInt(e.target.value)}))}
-                    />
-                </div>
-
-                <div>
-                    <label>Category: </label>
-                    <GetCategory event={(e: any) => {
-                        setAdvert(prev => ({...prev, categoryId: parseInt(e.target.value)}))
-                    }}
-                    />
-                </div> */}
-
         {!isPending && <button>Add advert</button>}
         {isPending && <button disabled>Adding advert</button>}
+        {inputList}
       </form>
-      <input type="button" value="+" id="addNew" />
+      <input onClick={addPhotoInput} type="button" value="Add another photo" id="addAnotherPhoto" />
     </div>
   );
 };

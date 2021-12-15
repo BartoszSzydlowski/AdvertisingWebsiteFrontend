@@ -1,9 +1,9 @@
-export interface LoginModel {
+export default interface LoginModel {
   username: string;
   password: string;
 }
 
-export interface RegisterModel {
+export default interface RegisterModel {
   username: string;
   email: string;
   password: string;

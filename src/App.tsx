@@ -5,9 +5,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages';
 import About from './pages/about';
 import Create from './pages/advert/addAdvertForm';
-import LoginForm from './pages/loginForm';
+import LoginForm from './pages/user/loginForm';
 import Cookies from 'js-cookie';
-import RegisterForm from './pages/registerForm';
+import RegisterForm from './pages/user/registerForm';
+import PagedAdverts from './pages/pagedAdverts';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -18,7 +19,7 @@ function App() {
     }
   }, [isLoggedIn]);
 
-  const handleLogin = (token: any, expiration: any) => {
+  const handleLogin = (token: string, expiration: Date) => {
     if (!token) {
       return;
     }
@@ -38,6 +39,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
+          <Route path="/pagedAdverts" component={PagedAdverts} />
           <Route path="/createAdvert" component={Create} />
           <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/register" component={RegisterForm} />

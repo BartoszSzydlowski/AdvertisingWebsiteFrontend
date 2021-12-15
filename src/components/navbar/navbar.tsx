@@ -14,6 +14,8 @@ const Navbar = (props: any) => {
             Home
           </NavLink>
 
+          <NavLink to="/pagedAdverts">Paged adverts</NavLink>
+
           <NavLink to="/about">About</NavLink>
 
           <NavLink to="/createAdvert">Add new advert</NavLink>
