@@ -4,7 +4,7 @@ import { CreateAdvert } from '../../interfaces/advert/advert';
 import GetCategory from '../../components/category/category';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Input from '../../components/photoInput/photoInput';
+import Row from '../../components/photoInput/photoInput';
 
 const Create = () => {
   const [advert, setAdvert] = useState<CreateAdvert>({
@@ -14,8 +14,22 @@ const Create = () => {
     categoryId: 1
   });
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [inputList, setInputList] = useState<any>([]);
+  const [rows, setRows] = useState<any>([{ checked: false }]);
 
+  const onChecked = (input: number) => {
+    const getCheckedRow = [...rows];
+    getCheckedRow[input].checked = !getCheckedRow[input].checked;
+    setRows(getCheckedRow);
+  };
+
+  const addRow = () => {
+    const newRow = [...rows, { checked: false }];
+    setRows(newRow);
+  };
+
+  const deleteRows = () => {
+    setRows(rows.filter((e: any) => !e.checked));
+  };
   //console.log(advert);
 
   const addPicture = async (advertId: any) => {
@@ -65,12 +79,8 @@ const Create = () => {
       });
   };
 
-  const addPhotoInput = (event: any) => {
-    setInputList(inputList.concat(<Input key={inputList.length} />));
-  };
-
   return (
-    <div style={{ margin: '5px' }}>
+    <div>
       <form onSubmit={submit}>
         <table style={{ margin: '0 auto' }}>
           <tbody>
@@ -112,11 +122,16 @@ const Create = () => {
             </tr>
           </tbody>
         </table>
-        {!isPending && <button>Add advert</button>}
-        {isPending && <button disabled>Adding advert</button>}
-        {inputList}
+        {rows.map((row: any, inputNumber: number) => {
+          return <Row key={inputNumber} checked={row.checked} onChecked={() => onChecked(inputNumber)} />;
+        })}
+        <div>
+          {!isPending && <input type="submit" value="Add advert" />}
+          {isPending && <input type="submit" value="Adding advert" disabled={true} />}
+        </div>
       </form>
-      <input onClick={addPhotoInput} type="button" value="Add another photo" id="addAnotherPhoto" />
+      <input type="submit" onClick={addRow} value="Add more photos" />
+      <input type="submit" onClick={deleteRows} value="Delete photos" />
     </div>
   );
 };
