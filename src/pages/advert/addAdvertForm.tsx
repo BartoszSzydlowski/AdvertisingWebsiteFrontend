@@ -89,7 +89,13 @@ const Create = () => {
                 <label>Name: </label>
               </td>
               <td>
-                <input type="text" value={advert.name} onChange={e => setAdvert(prev => ({ ...prev, name: e.target.value }))} />
+                <input
+                  type="text"
+                  value={advert.name}
+                  onChange={e =>
+                    setAdvert(prev => ({ ...prev, name: e.target.value }))
+                  }
+                />
               </td>
             </tr>
             <tr>
@@ -97,7 +103,16 @@ const Create = () => {
                 <label>Description: </label>
               </td>
               <td>
-                <input type="text" value={advert.description} onChange={e => setAdvert(prev => ({ ...prev, description: e.target.value }))} />
+                <input
+                  type="text"
+                  value={advert.description}
+                  onChange={e =>
+                    setAdvert(prev => ({
+                      ...prev,
+                      description: e.target.value
+                    }))
+                  }
+                />
               </td>
             </tr>
             <tr>
@@ -105,7 +120,16 @@ const Create = () => {
                 <label>Price: </label>
               </td>
               <td>
-                <input type="text" value={advert.price} onChange={e => setAdvert(prev => ({ ...prev, price: parseInt(e.target.value) }))} />
+                <input
+                  type="text"
+                  value={advert.price}
+                  onChange={e =>
+                    setAdvert(prev => ({
+                      ...prev,
+                      price: parseInt(e.target.value)
+                    }))
+                  }
+                />
               </td>
             </tr>
             <tr>
@@ -115,7 +139,10 @@ const Create = () => {
               <td>
                 <GetCategory
                   event={(e: any) => {
-                    setAdvert(prev => ({ ...prev, categoryId: parseInt(e.target.value) }));
+                    setAdvert(prev => ({
+                      ...prev,
+                      categoryId: parseInt(e.target.value)
+                    }));
                   }}
                 />
               </td>
@@ -123,11 +150,19 @@ const Create = () => {
           </tbody>
         </table>
         {rows.map((row: any, inputNumber: number) => {
-          return <Row key={inputNumber} checked={row.checked} onChecked={() => onChecked(inputNumber)} />;
+          return (
+            <Row
+              key={inputNumber}
+              checked={row.checked}
+              onChecked={() => onChecked(inputNumber)}
+            />
+          );
         })}
         <div>
           {!isPending && <input type="submit" value="Add advert" />}
-          {isPending && <input type="submit" value="Adding advert" disabled={true} />}
+          {isPending && (
+            <input type="submit" value="Adding advert" disabled={true} />
+          )}
         </div>
       </form>
       <input type="submit" onClick={addRow} value="Add more photos" />

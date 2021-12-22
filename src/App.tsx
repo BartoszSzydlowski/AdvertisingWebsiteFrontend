@@ -10,6 +10,8 @@ import Cookies from 'js-cookie';
 import RegisterForm from './pages/user/registerForm';
 import PagedAdverts from './pages/pagedAdverts';
 import ConfirmEmailPage from './pages/user/confirmEmail';
+import ForgotPasswordForm from './pages/user/forgotPassword';
+import RecoverPasswordForm from './pages/user/recoverPassword';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -42,9 +44,20 @@ function App() {
           <Route path="/about" component={About} />
           <Route path="/pagedAdverts" component={PagedAdverts} />
           <Route path="/createAdvert" component={Create} />
-          <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/login"
+            component={(props: any) => (
+              <LoginForm
+                {...props}
+                handleLogin={handleLogin}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            )}
+          />
           <Route path="/register" component={RegisterForm} />
           <Route path="/confirmEmail" component={ConfirmEmailPage} />
+          <Route path="/forgotPassword" component={ForgotPasswordForm} />
+          <Route path="/recoverPassword" component={RecoverPasswordForm} />
         </Switch>
       </Router>
     </div>

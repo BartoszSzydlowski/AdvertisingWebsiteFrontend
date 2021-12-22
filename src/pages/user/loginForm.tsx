@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
   const [userLogin, setUserLogin] = useState<LoginModel>({
     username: '',
-    email: '',
     password: ''
   });
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -18,11 +17,15 @@ const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
     e.preventDefault();
     setIsPending(true);
     axios
-      .post(`${Endpoints.defaultEndpoint}/api/Identity/Login`, JSON.stringify(userLogin), {
-        headers: {
-          'Content-Type': 'application/json'
+      .post(
+        `${Endpoints.defaultEndpoint}/api/Identity/Login`,
+        JSON.stringify(userLogin),
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
       .then(res => {
         setIsPending(false);
         setIsLoggedIn(true);
@@ -40,16 +43,31 @@ const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
     <div>
       <form onSubmit={auth}>
         <div>
-          <input type="text" placeholder="Username" value={userLogin.username} onChange={e => setUserLogin(prev => ({ ...prev, username: e.target.value }))} />
+          <input
+            type="text"
+            placeholder="Username"
+            value={userLogin.username}
+            onChange={e =>
+              setUserLogin(prev => ({ ...prev, username: e.target.value }))
+            }
+          />
         </div>
 
         <div>
-          <input type="password" placeholder="Password" value={userLogin.password} onChange={e => setUserLogin(prev => ({ ...prev, password: e.target.value }))} />
+          <input
+            type="password"
+            placeholder="Password"
+            value={userLogin.password}
+            onChange={e =>
+              setUserLogin(prev => ({ ...prev, password: e.target.value }))
+            }
+          />
         </div>
 
         {!isPending && <button>Login</button>}
         {isPending && <button disabled>Login in progress</button>}
       </form>
+      <a href="/forgotPassword">Forgot password?</a>
     </div>
   );
 };
