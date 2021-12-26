@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
 import { CreateAdvert } from '../../interfaces/advert/advert';
 import GetCategory from '../../components/category/category';
@@ -15,7 +15,7 @@ const Create = () => {
   });
   const [isPending, setIsPending] = useState<boolean>(false);
   const [rows, setRows] = useState<any>([{ checked: false }]);
-
+  
   const onChecked = (input: number) => {
     const getCheckedRow = [...rows];
     getCheckedRow[input].checked = !getCheckedRow[input].checked;
@@ -93,7 +93,10 @@ const Create = () => {
                   type="text"
                   value={advert.name}
                   onChange={e =>
-                    setAdvert(prev => ({ ...prev, name: e.target.value }))
+                    setAdvert(prev => ({
+                      ...prev,
+                      name: e.target.value
+                    }))
                   }
                 />
               </td>
@@ -150,23 +153,17 @@ const Create = () => {
           </tbody>
         </table>
         {rows.map((row: any, inputNumber: number) => {
-          return (
-            <Row
-              key={inputNumber}
-              checked={row.checked}
-              onChecked={() => onChecked(inputNumber)}
-            />
-          );
+          return <Row key={inputNumber} checked={row.checked} onChecked={() => onChecked(inputNumber)} />;
         })}
         <div>
           {!isPending && <input type="submit" value="Add advert" />}
-          {isPending && (
-            <input type="submit" value="Adding advert" disabled={true} />
-          )}
+          {isPending && <input type="submit" value="Adding advert" disabled={true} />}
         </div>
       </form>
-      <input type="submit" onClick={addRow} value="Add more photos" />
-      <input type="submit" onClick={deleteRows} value="Delete photos" />
+      <div style={{ marginTop: '5px' }}>
+        <input type="submit" onClick={addRow} value="Add more photos" />
+        <input type="submit" onClick={deleteRows} value="Delete photos" />
+      </div>
     </div>
   );
 };

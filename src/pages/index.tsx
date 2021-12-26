@@ -12,8 +12,8 @@ const Home = () => {
     axios
       .get(`${Endpoints.defaultEndpoint}/api/Adverts`)
       .then(response => {
-        setIsLoaded(true);
         setAdverts(response.data);
+        setIsLoaded(true);
       })
       .catch(error => {
         setIsLoaded(false);

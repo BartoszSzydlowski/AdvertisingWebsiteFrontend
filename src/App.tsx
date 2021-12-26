@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import './App.css';
-import Navbar from './components/navbar/navbar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import BootstrapNavbar from './components/navbar/navbar';
+import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
 import Home from './pages';
 import About from './pages/about';
 import Create from './pages/advert/addAdvertForm';
@@ -12,13 +12,32 @@ import PagedAdverts from './pages/pagedAdverts';
 import ConfirmEmailPage from './pages/user/confirmEmail';
 import ForgotPasswordForm from './pages/user/forgotPassword';
 import RecoverPasswordForm from './pages/user/recoverPassword';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import axios from 'axios';
 
-function App() {
+export const RoleContext = createContext('');
+
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userRole, setUserRole] = useState<string>('');
+
+  const getUserRole = () => {
+    axios
+      .get('https://localhost:44320/api/Identity/GetUserRole', {
+        headers: {
+          'Authorization': `Bearer ${Cookies.get('Token')}`
+        }
+      })
+      .then(response => {
+        setUserRole(response.data.message);
+      });
+  }
 
   useEffect(() => {
     if (Cookies.get('Token')) {
       setIsLoggedIn(true);
+      getUserRole();
     }
   }, [isLoggedIn]);
 
@@ -28,39 +47,34 @@ function App() {
     }
     Cookies.set('Token', token, { expires: new Date(expiration) });
     setIsLoggedIn(true);
+    getUserRole();
   };
 
   const handleLogout = () => () => {
     setIsLoggedIn(false);
     Cookies.remove('Token');
+    getUserRole();
   };
 
   return (
-    <div className="App">
-      <Router>
-        <Navbar isLoggedIn={isLoggedIn} logout={handleLogout} />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/pagedAdverts" component={PagedAdverts} />
-          <Route path="/createAdvert" component={Create} />
-          <Route
-            path="/login"
-            component={(props: any) => (
-              <LoginForm
-                {...props}
-                handleLogin={handleLogin}
-                setIsLoggedIn={setIsLoggedIn}
-              />
-            )}
-          />
-          <Route path="/register" component={RegisterForm} />
-          <Route path="/confirmEmail" component={ConfirmEmailPage} />
-          <Route path="/forgotPassword" component={ForgotPasswordForm} />
-          <Route path="/recoverPassword" component={RecoverPasswordForm} />
-        </Switch>
-      </Router>
-    </div>
+    <RoleContext.Provider value={userRole}>
+      <div className="App">
+        <Router>
+          <BootstrapNavbar isLoggedIn={isLoggedIn} logout={handleLogout} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/about" component={About} />
+            <Route path="/pagedAdverts" component={PagedAdverts} />
+            <Route path="/createAdvert" component={Create} />
+            <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/register" component={RegisterForm} />
+            <Route path="/confirmEmail" component={ConfirmEmailPage} />
+            <Route path="/forgotPassword" component={ForgotPasswordForm} />
+            <Route path="/recoverPassword" component={RecoverPasswordForm} />
+          </Switch>
+        </Router>
+      </div>
+    </RoleContext.Provider>
   );
 }
 

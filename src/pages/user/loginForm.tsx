@@ -31,7 +31,7 @@ const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
         setIsLoggedIn(true);
         console.log(res.data);
         handleLogin(res.data.token, res.data.expiration);
-        history.push('/home');
+        history.push('/');
       })
       .catch(error => {
         setIsPending(false);

@@ -10,5 +10,5 @@
   "requirePragma": false,
   "insertPragma": false,
   "arrowParens": "avoid",
-  "endOfLine": "crlf"
+  "endOfLine": "lf"
 }
