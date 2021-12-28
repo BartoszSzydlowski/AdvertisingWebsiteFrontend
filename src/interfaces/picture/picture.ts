@@ -1,4 +1,4 @@
-import { Advert } from '../advert/advert';
+import { IAdvert } from '../advert/advert';
 
 export interface Picture {
   id: string;
@@ -7,5 +7,5 @@ export interface Picture {
   extension: string;
   userId: string;
   advertId: number;
-  advert: Advert;
+  advert: IAdvert;
 }

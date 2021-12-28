@@ -80,6 +80,6 @@ const RecoverPasswordForm = () => {
       </form>
     </div>
   );
-}
+};
 
 export default RecoverPasswordForm;

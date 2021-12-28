@@ -12,7 +12,8 @@ const ForgotPasswordForm = () => {
     // const query = new URLSearchParams(url);
     // const email = query.get('email');
     axios
-      .post(`${Endpoints.defaultEndpoint}/api/Identity/ForgotPassword?email=${email}`,
+      .post(
+        `${Endpoints.defaultEndpoint}/api/Identity/ForgotPassword?email=${email}`,
         JSON.stringify(email),
         {
           headers: {
@@ -22,7 +23,7 @@ const ForgotPasswordForm = () => {
       )
       .then(res => {
         console.log(res.data);
-      }) 
+      })
       .catch(error => {
         console.log(error);
       });

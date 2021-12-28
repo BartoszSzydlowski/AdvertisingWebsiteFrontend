@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const NumberList = (props: any) => {
   const numbers = props.numbers;
   const listItems = numbers.map((number: any) => (
-    <li key={number.toString()} className={props.activePage === number ? 'page-item active' : 'page-item'}>
-      <input type="submit" value={number} className="page-link" onClick={props.onClick} />
+    <li
+      key={number.toString()}
+      className={props.activePage === number ? 'page-item active' : 'page-item'}
+    >
+      <input
+        type="submit"
+        value={number}
+        className="page-link"
+        onClick={props.onClick}
+      />
     </li>
   ));
   return listItems;
@@ -13,7 +21,7 @@ const NumberList = (props: any) => {
 const Pagination = (props: any) => {
   //const [activePage, setActivePage] = useState(1);
   const pageNumbers = props.pageNumbers;
-  let numbers: any[] = [];
+  const numbers: any[] = [];
 
   for (let i = 1; i <= pageNumbers; i++) {
     numbers.push(i);

@@ -1,7 +1,7 @@
 import { Category } from '../category/category';
 import { Picture } from '../picture/picture';
 
-export interface Advert {
+export interface IAdvert {
   id: number;
   name: string;
   description: string;
@@ -15,7 +15,7 @@ export interface Advert {
   pictures: Array<Picture>;
 }
 
-export interface CreateAdvert {
+export interface ICreateAdvert {
   name: string;
   description: string;
   price: number;

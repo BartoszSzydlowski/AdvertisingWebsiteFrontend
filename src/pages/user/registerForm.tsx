@@ -16,7 +16,10 @@ const RegisterForm = () => {
     e.preventDefault();
     setIsPending(true);
     axios
-      .post(`${Endpoints.defaultEndpoint}/api/Identity/Register`, JSON.stringify(newUser), {
+      .post(
+        `${Endpoints.defaultEndpoint}/api/Identity/Register`,
+        JSON.stringify(newUser),
+        {
           headers: {
             'Content-Type': 'application/json'
           }

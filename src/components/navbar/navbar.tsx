@@ -21,7 +21,7 @@ const BootstrapNavbar = (props: any) => {
             <Nav.Link as={Link} to="/about">
               About
             </Nav.Link>
-            <Nav.Link as={Link} to="/pagedAdverts">
+            <Nav.Link as={Link} to="/adverts">
               Paged adverts
             </Nav.Link>
             {userRole !== '' && (userRole === 'User' || userRole === 'Admin' || userRole === 'Moderator') && (
@@ -39,12 +39,9 @@ const BootstrapNavbar = (props: any) => {
                 </Nav.Link>
               </>
             ) : (
-              // <Nav.Link as={Link} to="/" onClick={props.logout()}>
-              //   Logout
-              // </Nav.Link>
               <Nav.Link as={Link} to="/" onClick={props.logout()}>
-              Logout
-            </Nav.Link>
+                Logout
+              </Nav.Link>
             )}
           </Nav>
         </Navbar.Collapse>

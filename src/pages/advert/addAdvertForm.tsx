@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
-import { CreateAdvert } from '../../interfaces/advert/advert';
+import { ICreateAdvert } from '../../interfaces/advert/advert';
 import GetCategory from '../../components/category/category';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Row from '../../components/photoInput/photoInput';
 
 const Create = () => {
-  const [advert, setAdvert] = useState<CreateAdvert>({
+  const [advert, setAdvert] = useState<ICreateAdvert>({
     name: '',
     description: '',
     price: 0,
@@ -15,7 +15,7 @@ const Create = () => {
   });
   const [isPending, setIsPending] = useState<boolean>(false);
   const [rows, setRows] = useState<any>([{ checked: false }]);
-  
+
   const onChecked = (input: number) => {
     const getCheckedRow = [...rows];
     getCheckedRow[input].checked = !getCheckedRow[input].checked;
@@ -41,12 +41,17 @@ const Create = () => {
     });
 
     await axios
-      .post(`${Endpoints.defaultEndpoint}/api/pictures?` + new URLSearchParams({ advertId: advertId }), formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
+      .post(
+        `${Endpoints.defaultEndpoint}/api/pictures?` +
+          new URLSearchParams({ advertId: advertId }),
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
         }
-      })
+      )
       .then(data => {
         console.log(data.data);
       })
@@ -62,12 +67,16 @@ const Create = () => {
     const token = Cookies.get('Token');
 
     await axios
-      .post(`${Endpoints.defaultEndpoint}/api/adverts`, JSON.stringify(advert), {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+      .post(
+        `${Endpoints.defaultEndpoint}/api/adverts`,
+        JSON.stringify(advert),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          }
         }
-      })
+      )
       .then(async data => {
         await addPicture(data.data.data.id);
         setIsPending(false);
@@ -153,11 +162,19 @@ const Create = () => {
           </tbody>
         </table>
         {rows.map((row: any, inputNumber: number) => {
-          return <Row key={inputNumber} checked={row.checked} onChecked={() => onChecked(inputNumber)} />;
+          return (
+            <Row
+              key={inputNumber}
+              checked={row.checked}
+              onChecked={() => onChecked(inputNumber)}
+            />
+          );
         })}
         <div>
           {!isPending && <input type="submit" value="Add advert" />}
-          {isPending && <input type="submit" value="Adding advert" disabled={true} />}
+          {isPending && (
+            <input type="submit" value="Adding advert" disabled={true} />
+          )}
         </div>
       </form>
       <div style={{ marginTop: '5px' }}>
