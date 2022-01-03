@@ -36,7 +36,8 @@ const App = () => {
         }
       })
       .then(response => {
-        setUserRole(response.data.message);
+        setUserRole(response.data.role);
+        //console.log(response.data.role);
       });
   };
 
