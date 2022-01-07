@@ -9,5 +9,5 @@
   "requirePragma": false,
   "insertPragma": false,
   "arrowParens": "avoid",
-  "endOfLine": "lf"
+  "printWidth": 1000
 }

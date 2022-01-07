@@ -1,12 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import './App.css';
 import BootstrapNavbar from './components/navbar/navbar';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages';
 import About from './pages/about';
 import Create from './pages/advert/addAdvertForm';
@@ -19,8 +14,10 @@ import ForgotPasswordForm from './pages/user/forgotPassword';
 import RecoverPasswordForm from './pages/user/recoverPassword';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import SingleAdvert from './pages/advert/singleAdvert';
+import { ToastContainer } from 'react-toastify';
 
 export const RoleContext = createContext('');
 
@@ -65,14 +62,23 @@ const App = () => {
 
   return (
     <RoleContext.Provider value={userRole}>
-      <div className="App">
+      <div className="App" style={{ height: '100%' }}>
         <Router>
           <BootstrapNavbar isLoggedIn={isLoggedIn} logout={handleLogout} />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route path="/createAdvert" component={Create} />
-            <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} />
+            <Route
+              path="/login"
+              component={(props: any) => (
+                <LoginForm
+                  {...props}
+                  handleLogin={handleLogin}
+                  setIsLoggedIn={setIsLoggedIn}
+                />
+              )}
+            />
             <Route path="/register" component={RegisterForm} />
             <Route path="/confirmEmail" component={ConfirmEmailPage} />
             <Route path="/forgotPassword" component={ForgotPasswordForm} />
@@ -82,6 +88,15 @@ const App = () => {
           </Switch>
         </Router>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnHover={false}
+      />
     </RoleContext.Provider>
   );
 };

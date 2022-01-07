@@ -13,9 +13,9 @@ const ConfirmEmailPage = () => {
   useEffect(() => {
     axios.post(`${Endpoints.defaultEndpoint}/api/identity/confirmemail?email=${email}&token=${token}`)
       .then(response => {
-      console.log(response);
-      setResponse(response.data.message);
-    });
+        console.log(response);
+        setResponse(response.data.message);
+      });
   }, []);
 
   return (

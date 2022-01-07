@@ -53,7 +53,8 @@ const Home = () => {
   // }
   return (
     <div>
-      Welcome to advertising website, please <Link to="/login">log in</Link> or <Link to="/register">create account</Link>
+      Welcome to advertising website, please <Link to="/login">log in</Link> or{' '}
+      <Link to="/register">create account</Link>
     </div>
   );
 };

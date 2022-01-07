@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
 
 const RecoverPasswordForm = () => {
@@ -23,7 +23,7 @@ const RecoverPasswordForm = () => {
     confirmPassword: confirmPassword
   };
 
-  console.log(data);
+  //console.log(data);
 
   const recoverPassword = (e: SyntheticEvent) => {
     e.preventDefault();

@@ -3,6 +3,7 @@ import LoginModel from '../../interfaces/user/user';
 import axios from 'axios';
 import Endpoints from '../../endpoints/endpoints';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
   const [userLogin, setUserLogin] = useState<LoginModel>({
@@ -29,45 +30,50 @@ const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
       .then(res => {
         setIsPending(false);
         setIsLoggedIn(true);
-        console.log(res.data);
+        //console.log(res.data);
         handleLogin(res.data.token, res.data.expiration);
         history.push('/');
       })
       .catch(error => {
         setIsPending(false);
-        console.log(error);
+        //console.log(error);
+        toast.error('Invalid login or password.');
       });
   };
 
   return (
-    <div>
-      <form onSubmit={auth}>
-        <div>
-          <input
-            type="text"
-            placeholder="Username"
-            value={userLogin.username}
-            onChange={e =>
-              setUserLogin(prev => ({ ...prev, username: e.target.value }))
-            }
-          />
-        </div>
+    <div style={{ height: '75%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ border: '1px solid gray', padding: '20px' }}>
+        <span style={{ fontSize: '2rem' }}>Login panel</span>
+        <form onSubmit={auth} style={{ padding: '10px' }}>
+          <div>
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Username"
+              value={userLogin.username}
+              onChange={e =>
+                setUserLogin(prev => ({ ...prev, username: e.target.value }))
+              }
+            />
+          </div>
 
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            value={userLogin.password}
-            onChange={e =>
-              setUserLogin(prev => ({ ...prev, password: e.target.value }))
-            }
-          />
-        </div>
-
-        {!isPending && <button>Login</button>}
-        {isPending && <button disabled>Login in progress</button>}
-      </form>
-      <a href="/forgotPassword">Forgot password?</a>
+          <div style={{ margin: '10px 0' }}>
+            <input
+              className="form-control"
+              type="password"
+              placeholder="Password"
+              value={userLogin.password}
+              onChange={e =>
+                setUserLogin(prev => ({ ...prev, password: e.target.value }))
+              }
+            />
+          </div>
+          {!isPending && <button className="btn btn-outline-secondary">Login</button>}
+          {isPending && <button className="btn btn-outline-secondary" disabled>Login</button>}
+        </form>
+        <a href="/forgotPassword">Forgot password?</a>
+      </div>
     </div>
   );
 };

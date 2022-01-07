@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const NumberList = (props: any) => {
   const numbers = props.numbers;
@@ -21,7 +21,7 @@ const NumberList = (props: any) => {
 const Pagination = (props: any) => {
   //const [activePage, setActivePage] = useState(1);
   const pageNumbers = props.pageNumbers;
-  const numbers: any[] = [];
+  const numbers: number[] = [];
 
   for (let i = 1; i <= pageNumbers; i++) {
     numbers.push(i);
