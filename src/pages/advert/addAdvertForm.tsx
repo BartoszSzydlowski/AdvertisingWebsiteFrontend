@@ -41,17 +41,12 @@ const Create = () => {
     });
 
     await axios
-      .post(
-        `${Endpoints.defaultEndpoint}/api/pictures?` +
-          new URLSearchParams({ advertId: advertId }),
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
+      .post(`${Endpoints.defaultEndpoint}/api/pictures?` + new URLSearchParams({ advertId: advertId }), formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
         }
-      )
+      })
       .then(data => {
         console.log(data.data);
       })
@@ -67,16 +62,12 @@ const Create = () => {
     const token = Cookies.get('Token');
 
     await axios
-      .post(
-        `${Endpoints.defaultEndpoint}/api/adverts`,
-        JSON.stringify(advert),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          }
+      .post(`${Endpoints.defaultEndpoint}/api/adverts`, JSON.stringify(advert), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         }
-      )
+      })
       .then(async data => {
         await addPicture(data.data.data.id);
         setIsPending(false);
@@ -162,19 +153,11 @@ const Create = () => {
           </tbody>
         </table>
         {rows.map((row: any, inputNumber: number) => {
-          return (
-            <Row
-              key={inputNumber}
-              checked={row.checked}
-              onChecked={() => onChecked(inputNumber)}
-            />
-          );
+          return <Row key={inputNumber} checked={row.checked} onChecked={() => onChecked(inputNumber)} />;
         })}
         <div>
           {!isPending && <input type="submit" value="Add advert" />}
-          {isPending && (
-            <input type="submit" value="Adding advert" disabled={true} />
-          )}
+          {isPending && <input type="submit" value="Adding advert" disabled={true} />}
         </div>
       </form>
       <div style={{ marginTop: '5px' }}>

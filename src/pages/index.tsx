@@ -1,11 +1,15 @@
 //import axios from 'axios';
 //import React, { useEffect, useState } from 'react';
-import React from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 //import Endpoints from '../endpoints/endpoints';
 //import { IAdvert } from '../interfaces/advert/advert';
 
 const Home = () => {
+  //const userRole = useContext(RoleContext);
+  const [username, setUsername] = useState<string>('');
   // const [adverts, setAdverts] = useState<Array<IAdvert>>([]);
   // const [error, setError] = useState<any>('');
   // const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -22,6 +26,22 @@ const Home = () => {
   //       setError(error);
   //     });
   // };
+
+  useEffect(() => {
+    const token = Cookies.get('Token');
+    axios
+      .get(`https://localhost:44320/api/Identity/GetUserName`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        setUsername(response.data.username);
+      })
+      .catch(() => {
+        setUsername('');
+      });
+  }, [username]);
 
   // useEffect(() => {
   //   getAdverts();
@@ -53,8 +73,8 @@ const Home = () => {
   // }
   return (
     <div>
-      Welcome to advertising website, please <Link to="/login">log in</Link> or{' '}
-      <Link to="/register">create account</Link>
+      Welcome to advertising website, please <Link to="/login">log in</Link> or <Link to="/register">create account</Link>
+      {username !== null && username !== '' && <div>Siema {username}</div>}
     </div>
   );
 };

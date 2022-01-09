@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { RoleContext } from '../../App';
 
@@ -24,18 +24,23 @@ const BootstrapNavbar = (props: any) => {
             <Nav.Link as={Link} to="/adverts">
               Paged adverts
             </Nav.Link>
-            {userRole !== '' &&
-              (userRole === 'User' ||
-                userRole === 'Admin' ||
-                userRole === 'Moderator') && (
-                <Nav.Link as={Link} to="/createAdvert">
-                  Add new advert
-                </Nav.Link>
-              )}
-            {userRole !== '' &&
-              (userRole === 'Admin' || userRole === 'Moderator') && (
-                <Nav.Link>Administrator panel</Nav.Link>
-              )}
+            {userRole !== '' && userRole !== null && (userRole === 'User' || userRole === 'Admin' || userRole === 'Moderator') && (
+              <Nav.Link as={Link} to="/createAdvert">
+                Add new advert
+              </Nav.Link>
+            )}
+            {userRole !== '' && userRole !== null && (userRole === 'Admin' || userRole === 'Moderator') && (
+              <NavDropdown title="Administrator panel">
+                <NavDropdown.Item>Show pending adverts</NavDropdown.Item>
+                <NavDropdown.Item>Categories panel</NavDropdown.Item>
+                <NavDropdown.Item>3</NavDropdown.Item>
+              </NavDropdown>
+            )}
+            {userRole !== '' && userRole !== null && (
+              <Nav.Link as={Link} to="/myAdverts">
+                My adverts
+              </Nav.Link>
+            )}
             {!props.isLoggedIn ? (
               <>
                 <Nav.Link as={Link} to="/login">

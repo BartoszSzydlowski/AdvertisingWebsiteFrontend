@@ -1,30 +1,33 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { IAdvert } from '../../interfaces/advert/advert';
 import { Link } from 'react-router-dom';
 import Pagination from '../../components/pagination/pagination';
 import Endpoints from '../../endpoints/endpoints';
-import { IAdvert } from '../../interfaces/advert/advert';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const PagedAdverts = () => {
+const UserAdverts = () => {
   const [adverts, setAdverts] = useState<Array<IAdvert>>([]);
   const [error, setError] = useState<any>('');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  //const [pagedResponse, setPagedResponse] = useState<any>();
-  //const pageNumbers: any[] = [];
-  //const [pageNumbers, setPageNumbers] = useState<number[]>([]);
 
   const getAdverts = () => {
+    const token = Cookies.get('Token');
     axios
-      .get(`${Endpoints.defaultEndpoint}/api/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`)
+      .get(`${Endpoints.defaultEndpoint}/api/Adverts/GetAllPagedByUserId?PageNumber=${page}&PageSize=10&Ascending=true`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
       .then(response => {
         setTotalPages(response.data.totalPages);
-        //setPagedResponse(response.data);
         setAdverts(response.data.data);
         setIsLoaded(true);
-        //console.log(response.data.totalPages);
-        //console.log(response.data.data);
+        // console.log(response.data.totalPages);
+        // console.log(response.data.data);
+        console.log(response);
       })
       .catch(error => {
         setIsLoaded(false);
@@ -48,6 +51,8 @@ const PagedAdverts = () => {
             return (
               <div key={`${advert.id}`} id={`${advert.id}`}>
                 <Link to={`adverts/${advert.id}`}>{advert.name}</Link>
+                <input type="submit" value="Edit" />
+                <input type="submit" value="Delete" />
               </div>
             );
           })}
@@ -58,4 +63,4 @@ const PagedAdverts = () => {
   }
 };
 
-export default PagedAdverts;
+export default UserAdverts;

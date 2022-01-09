@@ -12,15 +12,11 @@ const ForgotPasswordForm = () => {
     // const query = new URLSearchParams(url);
     // const email = query.get('email');
     axios
-      .post(
-        `${Endpoints.defaultEndpoint}/api/Identity/ForgotPassword?email=${email}`,
-        JSON.stringify(email),
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      .post(`${Endpoints.defaultEndpoint}/api/Identity/ForgotPassword?email=${email}`, JSON.stringify(email), {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      )
+      })
       .then(res => {
         console.log(res.data);
       })
@@ -33,12 +29,7 @@ const ForgotPasswordForm = () => {
     <div>
       <form onSubmit={register}>
         <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
+          <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
         </div>
 
         <button>Recover password</button>
