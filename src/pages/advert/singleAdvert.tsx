@@ -5,7 +5,7 @@ import axios from 'axios';
 import Endpoints from '../../endpoints/endpoints';
 
 const SingleAdvert = () => {
-  const params = useParams<{ id?: string | undefined }>();
+  const params = useParams<{ id: string | undefined }>();
   const [advert, setAdvert] = useState<IAdvert>();
   //console.log(params.id);
 

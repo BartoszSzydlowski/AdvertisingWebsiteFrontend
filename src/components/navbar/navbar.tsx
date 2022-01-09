@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { RoleContext } from '../../App';
+import { UserDataContext } from '../../App';
 
 const BootstrapNavbar = (props: any) => {
-  const userRole = useContext(RoleContext);
+  const userContext = useContext(UserDataContext);
 
   return (
     <Navbar bg="dark" expand="lg" variant="dark">
@@ -24,19 +24,36 @@ const BootstrapNavbar = (props: any) => {
             <Nav.Link as={Link} to="/adverts">
               Paged adverts
             </Nav.Link>
-            {userRole !== '' && userRole !== null && (userRole === 'User' || userRole === 'Admin' || userRole === 'Moderator') && (
-              <Nav.Link as={Link} to="/createAdvert">
-                Add new advert
-              </Nav.Link>
-            )}
-            {userRole !== '' && userRole !== null && (userRole === 'Admin' || userRole === 'Moderator') && (
-              <NavDropdown title="Administrator panel">
-                <NavDropdown.Item>Show pending adverts</NavDropdown.Item>
-                <NavDropdown.Item>Categories panel</NavDropdown.Item>
-                <NavDropdown.Item>3</NavDropdown.Item>
-              </NavDropdown>
-            )}
-            {userRole !== '' && userRole !== null && (
+            {userContext.userRole !== '' &&
+              userContext.userRole !== null &&
+              (userContext.userRole === 'User' ||
+                userContext.userRole === 'Admin' ||
+                userContext.userRole === 'Moderator') && (
+                <Nav.Link as={Link} to="/createAdvert">
+                  Add new advert
+                </Nav.Link>
+              )}
+            {userContext.userRole !== '' &&
+              userContext.userRole !== null &&
+              userContext.userRole === 'Admin' && (
+                <NavDropdown title="Administrator panel">
+                  <NavDropdown.Item>Show pending adverts</NavDropdown.Item>
+                  <NavDropdown.Item>Categories panel</NavDropdown.Item>
+                  <NavDropdown.Item>
+                    Create administrator account
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>Create moderator account</NavDropdown.Item>
+                </NavDropdown>
+              )}
+            {userContext.userRole !== '' &&
+              userContext.userRole !== null &&
+              userContext.userRole === 'Moderator' && (
+                <NavDropdown title="Administrator panel">
+                  <NavDropdown.Item>Show pending adverts</NavDropdown.Item>
+                  <NavDropdown.Item>Categories panel</NavDropdown.Item>
+                </NavDropdown>
+              )}
+            {userContext.userRole !== '' && userContext.userRole !== null && (
               <Nav.Link as={Link} to="/myAdverts">
                 My adverts
               </Nav.Link>

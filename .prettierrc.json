@@ -8,6 +8,5 @@
   "bracketSameLine": false,
   "requirePragma": false,
   "insertPragma": false,
-  "arrowParens": "avoid",
-  "printWidth": 1000
+  "arrowParens": "avoid"
 }

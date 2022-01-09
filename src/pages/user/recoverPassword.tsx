@@ -28,11 +28,15 @@ const RecoverPasswordForm = () => {
   const recoverPassword = (e: SyntheticEvent) => {
     e.preventDefault();
     axios
-      .post(`${Endpoints.defaultEndpoint}/api/Identity/RecoverPassword`, JSON.stringify(data), {
-        headers: {
-          'Content-Type': 'application/json'
+      .post(
+        `${Endpoints.defaultEndpoint}/api/Identity/RecoverPassword`,
+        JSON.stringify(data),
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
       .then(response => {
         console.log(response);
       })
@@ -49,13 +53,21 @@ const RecoverPasswordForm = () => {
             <tr>
               <td>New password: </td>
               <td>
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
               </td>
             </tr>
             <tr>
               <td>Confirm password: </td>
               <td>
-                <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                />
               </td>
             </tr>
             <tr>

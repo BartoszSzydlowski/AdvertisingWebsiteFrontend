@@ -17,7 +17,9 @@ const PagedAdverts = () => {
 
   const getAdverts = () => {
     axios
-      .get(`${Endpoints.defaultEndpoint}/api/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`)
+      .get(
+        `${Endpoints.defaultEndpoint}/api/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`
+      )
       .then(response => {
         setTotalPages(response.data.totalPages);
         //setPagedResponse(response.data);
@@ -52,7 +54,12 @@ const PagedAdverts = () => {
             );
           })}
         </div>
-        <Pagination pageNumbers={totalPages} onClick={(e: any) => setPage(parseInt(e.currentTarget.value))} activePage={page} setActivePage={setPage} />
+        <Pagination
+          pageNumbers={totalPages}
+          onClick={(e: any) => setPage(parseInt(e.currentTarget.value))}
+          activePage={page}
+          setActivePage={setPage}
+        />
       </div>
     );
   }

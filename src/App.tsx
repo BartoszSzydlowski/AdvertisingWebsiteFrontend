@@ -20,11 +20,13 @@ import SingleAdvert from './pages/advert/singleAdvert';
 import { ToastContainer } from 'react-toastify';
 import UserAdverts from './pages/advert/userAdverts';
 
-export const RoleContext = createContext('');
+export const UserDataContext = createContext({ username: '', userRole: '' });
+//export const RoleContext = createContext('');
 
-const App = () => {
+const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
 
   const getUserRole = () => {
     axios
@@ -39,10 +41,23 @@ const App = () => {
       });
   };
 
+  const getUserName = () => {
+    axios
+      .get('https://localhost:44320/api/Identity/GetUserName', {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('Token')}`
+        }
+      })
+      .then(response => {
+        setUsername(response.data.username);
+      });
+  };
+
   useEffect(() => {
     if (Cookies.get('Token')) {
       setIsLoggedIn(true);
       getUserRole();
+      getUserName();
     }
   }, [isLoggedIn]);
 
@@ -53,16 +68,20 @@ const App = () => {
     Cookies.set('Token', token, { expires: new Date(expiration) });
     setIsLoggedIn(true);
     getUserRole();
+    getUserName();
   };
 
   const handleLogout = () => () => {
     setIsLoggedIn(false);
     Cookies.remove('Token');
     getUserRole();
+    getUserName();
   };
 
   return (
-    <RoleContext.Provider value={userRole}>
+    <UserDataContext.Provider
+      value={{ username: username, userRole: userRole }}
+    >
       <div className="App" style={{ height: '100%' }}>
         <Router>
           <BootstrapNavbar isLoggedIn={isLoggedIn} logout={handleLogout} />
@@ -70,7 +89,20 @@ const App = () => {
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route path="/createAdvert" component={Create} />
-            <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} />
+            {/* <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} /> */}
+            <Route
+              path="/login"
+              component={(props: {
+                handleLogin: () => void;
+                setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+              }) => (
+                <LoginForm
+                  {...props}
+                  handleLogin={handleLogin}
+                  setIsLoggedIn={setIsLoggedIn}
+                />
+              )}
+            />
             <Route path="/register" component={RegisterForm} />
             <Route path="/confirmEmail" component={ConfirmEmailPage} />
             <Route path="/forgotPassword" component={ForgotPasswordForm} />
@@ -79,11 +111,22 @@ const App = () => {
             <Route path="/adverts" component={PagedAdverts} />
             <Route path="/myAdverts" component={UserAdverts} />
             <Route path="/editAdvert/:id" />
+            <Route path="/createAdmin" />
+            <Route path="/createMod" />
           </Switch>
         </Router>
       </div>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnHover={false} />
-    </RoleContext.Provider>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnHover={false}
+        theme="dark"
+      />
+    </UserDataContext.Provider>
   );
 };
 

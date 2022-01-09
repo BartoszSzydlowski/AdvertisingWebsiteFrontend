@@ -2,13 +2,14 @@
 //import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { UserDataContext } from '../App';
 //import Endpoints from '../endpoints/endpoints';
 //import { IAdvert } from '../interfaces/advert/advert';
 
 const Home = () => {
-  //const userRole = useContext(RoleContext);
+  const userData = useContext(UserDataContext);
   const [username, setUsername] = useState<string>('');
   // const [adverts, setAdverts] = useState<Array<IAdvert>>([]);
   // const [error, setError] = useState<any>('');
@@ -27,21 +28,21 @@ const Home = () => {
   //     });
   // };
 
-  useEffect(() => {
-    const token = Cookies.get('Token');
-    axios
-      .get(`https://localhost:44320/api/Identity/GetUserName`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then(response => {
-        setUsername(response.data.username);
-      })
-      .catch(() => {
-        setUsername('');
-      });
-  }, [username]);
+  // useEffect(() => {
+  //   const token = Cookies.get('Token');
+  //   axios
+  //     .get(`https://localhost:44320/api/Identity/GetUserName`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     })
+  //     .then(response => {
+  //       setUsername(response.data.username);
+  //     })
+  //     .catch(() => {
+  //       setUsername('');
+  //     });
+  // }, [username]);
 
   // useEffect(() => {
   //   getAdverts();
@@ -72,10 +73,17 @@ const Home = () => {
   //   );
   // }
   return (
-    <div>
-      Welcome to advertising website, please <Link to="/login">log in</Link> or <Link to="/register">create account</Link>
-      {username !== null && username !== '' && <div>Siema {username}</div>}
-    </div>
+    <>
+      {userData.username !== null && userData.username !== '' && (
+        <div>Siema {userData.username}</div>
+      )}
+      {(userData.username === null || userData.username === '') && (
+        <div>
+          Welcome to advertising website, please <Link to="/login">log in</Link>{' '}
+          or <Link to="/register">create account</Link>
+        </div>
+      )}
+    </>
   );
 };
 

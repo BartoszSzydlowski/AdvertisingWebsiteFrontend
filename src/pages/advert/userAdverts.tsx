@@ -16,18 +16,21 @@ const UserAdverts = () => {
   const getAdverts = () => {
     const token = Cookies.get('Token');
     axios
-      .get(`${Endpoints.defaultEndpoint}/api/Adverts/GetAllPagedByUserId?PageNumber=${page}&PageSize=10&Ascending=true`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      .get(
+        `${Endpoints.defaultEndpoint}/api/Adverts/GetAllPagedByUserId?PageNumber=${page}&PageSize=10&Ascending=true`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      })
+      )
       .then(response => {
         setTotalPages(response.data.totalPages);
         setAdverts(response.data.data);
         setIsLoaded(true);
         // console.log(response.data.totalPages);
         // console.log(response.data.data);
-        console.log(response);
+        //console.log(response);
       })
       .catch(error => {
         setIsLoaded(false);
@@ -57,7 +60,12 @@ const UserAdverts = () => {
             );
           })}
         </div>
-        <Pagination pageNumbers={totalPages} onClick={(e: any) => setPage(parseInt(e.currentTarget.value))} activePage={page} setActivePage={setPage} />
+        <Pagination
+          pageNumbers={totalPages}
+          onClick={(e: any) => setPage(parseInt(e.currentTarget.value))}
+          activePage={page}
+          setActivePage={setPage}
+        />
       </div>
     );
   }
