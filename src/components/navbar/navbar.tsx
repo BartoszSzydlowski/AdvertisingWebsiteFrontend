@@ -1,44 +1,94 @@
-import React from 'react';
-import {
-  Nav,
-  NavLogo,
-  NavLink,
-  Bars,
-  NavMenu,
-  LogoutNavLink,
-} from './navbarElements';
+import React, { useContext } from 'react';
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { UserDataContext } from '../../App';
 
-const Navbar = (props: any) => {
+interface IBootstrapNavbarProps {
+  isLoggedIn: boolean;
+  handleLogout: () => () => void;
+}
+
+const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
+  const userContext = useContext(UserDataContext);
+
   return (
-    <>
-      <Nav>
-        <NavLogo to="/"></NavLogo>
-
-        <Bars />
-
-        <NavMenu>
-          <NavLink exact to="/">
-            Home
-          </NavLink>
-
-          <NavLink to="/about">About</NavLink>
-
-          <NavLink to="/createAdvert">Add new advert</NavLink>
-
-          {!props.isLoggedIn ? (
-            <>
-              <NavLink to="/login">Login</NavLink>
-
-              <NavLink to="/register">Register</NavLink>
-            </>
-          ) : (
-            <LogoutNavLink to="/home" onClick={props.logout()}>
-              Logout
-            </LogoutNavLink>
-          )}
-        </NavMenu>
-      </Nav>
-    </>
+    <Navbar bg="dark" expand="lg" variant="dark">
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          Advertising website
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} to="/">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/about">
+              About
+            </Nav.Link>
+            <Nav.Link as={Link} to="/adverts">
+              Paged adverts
+            </Nav.Link>
+            {userContext.userRole !== '' &&
+              userContext.userRole !== null &&
+              (userContext.userRole === 'User' ||
+                userContext.userRole === 'Admin' ||
+                userContext.userRole === 'Moderator') && (
+                <Nav.Link as={Link} to="/createAdvert">
+                  Add new advert
+                </Nav.Link>
+              )}
+            {userContext.userRole !== '' &&
+              userContext.userRole !== null &&
+              userContext.userRole === 'Admin' && (
+                <NavDropdown title="Administrator panel">
+                  <NavDropdown.Item as={Link} to="/showPending">
+                    Show pending adverts
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/categories">
+                    Categories panel
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/createAdminMod">
+                    Create administrator or moderator account
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+            {userContext.userRole !== '' &&
+              userContext.userRole !== null &&
+              userContext.userRole === 'Moderator' && (
+                <NavDropdown title="Moderator panel">
+                  <NavDropdown.Item as={Link} to="/showPending">
+                    Show pending adverts
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/categories">
+                    Categories panel
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+            {userContext.userRole !== '' && userContext.userRole !== null && (
+              <Nav.Link as={Link} to="/myAdverts">
+                My adverts
+              </Nav.Link>
+            )}
+            {!props.isLoggedIn ? (
+              <>
+                <Nav.Link as={Link} to="/login">
+                  Login
+                </Nav.Link>
+                <Nav.Link as={Link} to="/register" className="ml-auto">
+                  Register
+                </Nav.Link>
+              </>
+            ) : (
+              <Nav.Link as={Link} to="/" onClick={props.handleLogout()}>
+                Logout
+              </Nav.Link>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
-export default Navbar;
+
+export default BootstrapNavbar;

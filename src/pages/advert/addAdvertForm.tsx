@@ -1,26 +1,66 @@
 import React, { useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
-import { CreateAdvert } from '../../interfaces/advert/advert';
+import { ICreateAdvert } from '../../interfaces/advert/advert';
 import GetCategory from '../../components/category/category';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import PhotoInput from '../../components/photoInput/photoInput';
 
-const Create = () => {
-  const [advert, setAdvert] = useState<CreateAdvert>({
+const Create: React.FC = () => {
+  const [advert, setAdvert] = useState<ICreateAdvert>({
     name: '',
     description: '',
     price: 0,
-    categoryId: 0,
+    categoryId: 1
   });
   const [isPending, setIsPending] = useState<boolean>(false);
+  const [photoInputs, setPhotoInputs] = useState<any>([{ checked: false }]);
 
+  const onChecked = (input: number) => {
+    const getCheckedPhotoInputs = [...photoInputs];
+    getCheckedPhotoInputs[input].checked = !getCheckedPhotoInputs[input].checked;
+    setPhotoInputs(getCheckedPhotoInputs);
+  };
+
+  const addInput = () => {
+    const newInput = [...photoInputs, { checked: false }];
+    setPhotoInputs(newInput);
+  };
+
+  const deleteInputs = () => {
+    setPhotoInputs(photoInputs.filter((e: any) => !e.checked));
+  };
   //console.log(advert);
 
-  // const addPicture = async (advertId: number) => {
+  const addPicture = async (advertId: number) => {
+    const pictures = document.getElementsByClassName('files');
+    const formData = new FormData();
+    const token = Cookies.get('Token');
+    Array.prototype.forEach.call(pictures, picture => {
+      formData.append('files', picture.files[0], picture.files[0].filename);
+    });
 
-  // };
+    await axios
+      .post(
+        `${Endpoints.defaultEndpoint}/pictures?` +
+          new URLSearchParams({ advertId: advertId.toString() }),
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      )
+      .then(data => {
+        console.log(data.data);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
 
-  const submit = async (e: any) => {
+  const submit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsPending(true);
 
@@ -28,22 +68,23 @@ const Create = () => {
 
     await axios
       .post(
-        `${Endpoints.defaultEndpoint}/api/adverts`,
+        `${Endpoints.defaultEndpoint}/adverts`,
         JSON.stringify(advert),
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       )
-      .then((data) => {
+      .then(async data => {
+        await addPicture(data.data.data.id);
         setIsPending(false);
-        console.log(data.data);
+        //console.log(data.data.data.id);
       })
-      .catch((error) => {
+      .catch(error => {
         setIsPending(false);
-        console.log(error.response.data);
+        console.log(error);
       });
   };
 
@@ -60,8 +101,11 @@ const Create = () => {
                 <input
                   type="text"
                   value={advert.name}
-                  onChange={(e) =>
-                    setAdvert((prev) => ({ ...prev, name: e.target.value }))
+                  onChange={e =>
+                    setAdvert(prev => ({
+                      ...prev,
+                      name: e.target.value
+                    }))
                   }
                 />
               </td>
@@ -74,10 +118,10 @@ const Create = () => {
                 <input
                   type="text"
                   value={advert.description}
-                  onChange={(e) =>
-                    setAdvert((prev) => ({
+                  onChange={e =>
+                    setAdvert(prev => ({
                       ...prev,
-                      description: e.target.value,
+                      description: e.target.value
                     }))
                   }
                 />
@@ -91,10 +135,10 @@ const Create = () => {
                 <input
                   type="text"
                   value={advert.price}
-                  onChange={(e) =>
-                    setAdvert((prev) => ({
+                  onChange={e =>
+                    setAdvert(prev => ({
                       ...prev,
-                      price: parseInt(e.target.value),
+                      price: parseInt(e.target.value)
                     }))
                   }
                 />
@@ -106,10 +150,10 @@ const Create = () => {
               </td>
               <td>
                 <GetCategory
-                  event={(e: any) => {
-                    setAdvert((prev) => ({
+                  onChange={(e: any) => {
+                    setAdvert(prev => ({
                       ...prev,
-                      categoryId: parseInt(e.target.value),
+                      categoryId: parseInt(e.target.value)
                     }));
                   }}
                 />
@@ -117,39 +161,26 @@ const Create = () => {
             </tr>
           </tbody>
         </table>
-        {/* <div>
-                    <label>Name: </label>
-                    <input type='text' value={advert.name}
-                           onChange={e => setAdvert(prev => ({...prev, name: e.target.value}))}
-                    />
-                </div>
-
-                <div>
-                    <label>Description: </label>
-                    <input type='text' value={advert.description}
-                           onChange={e => setAdvert(prev => ({...prev, description: e.target.value}))}
-                    />
-                </div>
-
-                <div>
-                    <label>Price: </label>
-                    <input type='text' value={advert.price}
-                           onChange={e => setAdvert(prev => ({...prev, price: parseInt(e.target.value)}))}
-                    />
-                </div>
-
-                <div>
-                    <label>Category: </label>
-                    <GetCategory event={(e: any) => {
-                        setAdvert(prev => ({...prev, categoryId: parseInt(e.target.value)}))
-                    }}
-                    />
-                </div> */}
-
-        {!isPending && <button>Add advert</button>}
-        {isPending && <button disabled>Adding advert</button>}
+        {photoInputs.map((photoInput: any, inputNumber: number) => {
+          return (
+            <PhotoInput
+              key={inputNumber}
+              checked={photoInput.checked}
+              onChecked={() => onChecked(inputNumber)}
+            />
+          );
+        })}
+        <div>
+          {!isPending && <input type="submit" value="Add advert" />}
+          {isPending && (
+            <input type="submit" value="Adding advert" disabled={true} />
+          )}
+        </div>
       </form>
-      <input type="button" value="+" id="addNew" />
+      <div style={{ marginTop: '5px' }}>
+        <input type="submit" onClick={addInput} value="Add more photos" />
+        <input type="submit" onClick={deleteInputs} value="Delete photos" />
+      </div>
     </div>
   );
 };

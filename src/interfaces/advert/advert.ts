@@ -1,21 +1,21 @@
-import { Category } from '../category/category';
-import { Picture } from '../picture/picture';
+import { ICategory } from '../category/category';
+import { IPicture } from '../picture/picture';
 
-export interface Advert {
+export interface IAdvert {
   id: number;
   name: string;
   description: string;
   price: number;
   categoryId: number;
-  category: Category;
+  category: ICategory;
   isPromoted: boolean;
   isAccepted: boolean;
   isExpired: boolean;
   userId: string;
-  pictures: Array<Picture>;
+  pictures: Array<IPicture>;
 }
 
-export interface CreateAdvert {
+export interface ICreateAdvert {
   name: string;
   description: string;
   price: number;

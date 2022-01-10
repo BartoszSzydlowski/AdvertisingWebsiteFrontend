@@ -1,8 +1,12 @@
-import { Advert } from '../advert/advert';
+import { IAdvert } from '../advert/advert';
 
-export interface Category {
+export interface ICategory {
   id: number;
   name: string;
   description: string;
-  adverts: Array<Advert>;
+}
+
+export interface ICreateCategory {
+  name: string;
+  description: string;
 }
