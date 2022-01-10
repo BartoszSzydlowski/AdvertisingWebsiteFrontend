@@ -1,24 +1,14 @@
 import React from 'react';
+import NumberList from './numberList';
 
-const NumberList = (props: any) => {
-  const numbers = props.numbers;
-  const listItems = numbers.map((number: any) => (
-    <li
-      key={number.toString()}
-      className={props.activePage === number ? 'page-item active' : 'page-item'}
-    >
-      <input
-        type="submit"
-        value={number}
-        className="page-link"
-        onClick={props.onClick}
-      />
-    </li>
-  ));
-  return listItems;
-};
+interface IPaginationProps {
+  pageNumbers: number;
+  activePage: number;
+  setActivePage: React.Dispatch<React.SetStateAction<number>>;
+  onClick: React.MouseEventHandler<HTMLInputElement> | undefined;
+}
 
-const Pagination = (props: any) => {
+const Pagination: React.FC<IPaginationProps> = (props) => {
   //const [activePage, setActivePage] = useState(1);
   const pageNumbers = props.pageNumbers;
   const numbers: number[] = [];

@@ -1,9 +1,8 @@
-/* eslint-disable prettier/prettier */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
 
-const ConfirmEmailPage = () => {
+const ConfirmEmailPage: React.FC = () => {
   const url = window.location.search;
   const query = new URLSearchParams(url);
   const email = query.get('userEmail');
@@ -11,7 +10,7 @@ const ConfirmEmailPage = () => {
   const [response, setResponse] = useState<string>('');
 
   useEffect(() => {
-    axios.post(`${Endpoints.defaultEndpoint}/api/identity/confirmemail?email=${email}&token=${token}`)
+    axios.post(`${Endpoints.defaultEndpoint}/identity/confirmemail?email=${email}&token=${token}`)
       .then(response => {
         //console.log(response);
         setResponse(response.data.message);

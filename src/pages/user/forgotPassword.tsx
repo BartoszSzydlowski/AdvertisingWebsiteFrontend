@@ -1,19 +1,18 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
-import RegisterModel from '../../interfaces/user/user';
 
-const ForgotPasswordForm = () => {
+const ForgotPasswordForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
 
-  const register = (e: any) => {
+  const register = (e: React.SyntheticEvent) => {
     e.preventDefault();
     // const url = window.location.search;
     // const query = new URLSearchParams(url);
     // const email = query.get('email');
     axios
       .post(
-        `${Endpoints.defaultEndpoint}/api/Identity/ForgotPassword?email=${email}`,
+        `${Endpoints.defaultEndpoint}/Identity/ForgotPassword?email=${email}`,
         JSON.stringify(email),
         {
           headers: {

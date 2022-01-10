@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler } from 'react';
-interface IRowProps {
+interface IPhotoInputProps {
   checked: boolean;
   onChecked: ChangeEventHandler;
 }
@@ -12,13 +12,13 @@ interface IRowProps {
 //   );
 // };
 
-const Row: React.FC<IRowProps> = ({ checked, onChecked }) => {
+const PhotoInput: React.FC<IPhotoInputProps> = (props) => {
   return (
     <div style={{ margin: '5px' }}>
-      <input type="checkbox" checked={checked} onChange={onChecked} />
+      <input type="checkbox" checked={props.checked} onChange={props.onChecked} />
       <input type="file" className="files" />
     </div>
   );
 };
 
-export default Row;
+export default PhotoInput;

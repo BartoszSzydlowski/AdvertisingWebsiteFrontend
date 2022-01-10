@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
 import { ICreateAdvert } from '../../interfaces/advert/advert';
 import GetCategory from '../../components/category/category';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Row from '../../components/photoInput/photoInput';
+import PhotoInput from '../../components/photoInput/photoInput';
 
-const Create = () => {
+const Create: React.FC = () => {
   const [advert, setAdvert] = useState<ICreateAdvert>({
     name: '',
     description: '',
@@ -14,25 +14,25 @@ const Create = () => {
     categoryId: 1
   });
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [rows, setRows] = useState<any>([{ checked: false }]);
+  const [photoInputs, setPhotoInputs] = useState<any>([{ checked: false }]);
 
   const onChecked = (input: number) => {
-    const getCheckedRow = [...rows];
-    getCheckedRow[input].checked = !getCheckedRow[input].checked;
-    setRows(getCheckedRow);
+    const getCheckedPhotoInputs = [...photoInputs];
+    getCheckedPhotoInputs[input].checked = !getCheckedPhotoInputs[input].checked;
+    setPhotoInputs(getCheckedPhotoInputs);
   };
 
-  const addRow = () => {
-    const newRow = [...rows, { checked: false }];
-    setRows(newRow);
+  const addInput = () => {
+    const newInput = [...photoInputs, { checked: false }];
+    setPhotoInputs(newInput);
   };
 
-  const deleteRows = () => {
-    setRows(rows.filter((e: any) => !e.checked));
+  const deleteInputs = () => {
+    setPhotoInputs(photoInputs.filter((e: any) => !e.checked));
   };
   //console.log(advert);
 
-  const addPicture = async (advertId: any) => {
+  const addPicture = async (advertId: number) => {
     const pictures = document.getElementsByClassName('files');
     const formData = new FormData();
     const token = Cookies.get('Token');
@@ -42,8 +42,8 @@ const Create = () => {
 
     await axios
       .post(
-        `${Endpoints.defaultEndpoint}/api/pictures?` +
-          new URLSearchParams({ advertId: advertId }),
+        `${Endpoints.defaultEndpoint}/pictures?` +
+          new URLSearchParams({ advertId: advertId.toString() }),
         formData,
         {
           headers: {
@@ -60,7 +60,7 @@ const Create = () => {
       });
   };
 
-  const submit = async (e: any) => {
+  const submit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsPending(true);
 
@@ -68,7 +68,7 @@ const Create = () => {
 
     await axios
       .post(
-        `${Endpoints.defaultEndpoint}/api/adverts`,
+        `${Endpoints.defaultEndpoint}/adverts`,
         JSON.stringify(advert),
         {
           headers: {
@@ -150,7 +150,7 @@ const Create = () => {
               </td>
               <td>
                 <GetCategory
-                  event={(e: any) => {
+                  onChange={(e: any) => {
                     setAdvert(prev => ({
                       ...prev,
                       categoryId: parseInt(e.target.value)
@@ -161,11 +161,11 @@ const Create = () => {
             </tr>
           </tbody>
         </table>
-        {rows.map((row: any, inputNumber: number) => {
+        {photoInputs.map((photoInput: any, inputNumber: number) => {
           return (
-            <Row
+            <PhotoInput
               key={inputNumber}
-              checked={row.checked}
+              checked={photoInput.checked}
               onChecked={() => onChecked(inputNumber)}
             />
           );
@@ -178,8 +178,8 @@ const Create = () => {
         </div>
       </form>
       <div style={{ marginTop: '5px' }}>
-        <input type="submit" onClick={addRow} value="Add more photos" />
-        <input type="submit" onClick={deleteRows} value="Delete photos" />
+        <input type="submit" onClick={addInput} value="Add more photos" />
+        <input type="submit" onClick={deleteInputs} value="Delete photos" />
       </div>
     </div>
   );

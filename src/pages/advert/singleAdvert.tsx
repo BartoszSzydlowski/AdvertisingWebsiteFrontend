@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Endpoints from '../../endpoints/endpoints';
 
-const SingleAdvert = () => {
+const SingleAdvert: React.FC = () => {
   const params = useParams<{ id: string | undefined }>();
   const [advert, setAdvert] = useState<IAdvert>();
   //console.log(params.id);
@@ -15,7 +15,7 @@ const SingleAdvert = () => {
 
   const getAdvert = () => {
     axios
-      .get(`${Endpoints.defaultEndpoint}/api/adverts/${params.id}`)
+      .get(`${Endpoints.defaultEndpoint}/adverts/${params.id}`)
       .then(response => {
         //console.log(response.data.data);
         setAdvert(response.data.data);

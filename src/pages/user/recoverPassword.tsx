@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { SyntheticEvent, useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
 
-const RecoverPasswordForm = () => {
+const RecoverPasswordForm: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
@@ -29,7 +29,7 @@ const RecoverPasswordForm = () => {
     e.preventDefault();
     axios
       .post(
-        `${Endpoints.defaultEndpoint}/api/Identity/RecoverPassword`,
+        `${Endpoints.defaultEndpoint}/Identity/RecoverPassword`,
         JSON.stringify(data),
         {
           headers: {

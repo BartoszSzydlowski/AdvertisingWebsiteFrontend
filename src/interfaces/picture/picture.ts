@@ -1,6 +1,6 @@
 import { IAdvert } from '../advert/advert';
 
-export interface Picture {
+export interface IPicture {
   id: string;
   uniqueName: string;
   path: string;

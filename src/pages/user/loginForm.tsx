@@ -5,7 +5,13 @@ import Endpoints from '../../endpoints/endpoints';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
+interface ILoginFormProps {
+  handleLogin: (token: string, expiration: Date) => void;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+//const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
+const LoginForm: React.FC<ILoginFormProps> = (props) => {
   const [userLogin, setUserLogin] = useState<LoginModel>({
     username: '',
     password: ''
@@ -19,7 +25,7 @@ const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
     setIsPending(true);
     axios
       .post(
-        `${Endpoints.defaultEndpoint}/api/Identity/Login`,
+        `${Endpoints.defaultEndpoint}/Identity/Login`,
         JSON.stringify(userLogin),
         {
           headers: {
@@ -29,15 +35,15 @@ const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
       )
       .then(res => {
         setIsPending(false);
-        setIsLoggedIn(true);
+        props.setIsLoggedIn(true);
         //console.log(res.data);
-        handleLogin(res.data.token, res.data.expiration);
+        props.handleLogin(res.data.token, res.data.expiration);
         history.push('/');
       })
-      .catch(error => {
+      .catch(() => {
         setIsPending(false);
         //console.log(error);
-        toast.error('Invalid login or password.');
+        toast.error('Failed to login');
       });
   };
 

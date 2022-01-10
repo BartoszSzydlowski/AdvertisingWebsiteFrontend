@@ -3,7 +3,12 @@ import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { UserDataContext } from '../../App';
 
-const BootstrapNavbar = (props: any) => {
+interface IBootstrapNavbarProps {
+  isLoggedIn: boolean;
+  handleLogout: () => () => void;
+}
+
+const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
   const userContext = useContext(UserDataContext);
 
   return (
@@ -37,20 +42,27 @@ const BootstrapNavbar = (props: any) => {
               userContext.userRole !== null &&
               userContext.userRole === 'Admin' && (
                 <NavDropdown title="Administrator panel">
-                  <NavDropdown.Item>Show pending adverts</NavDropdown.Item>
-                  <NavDropdown.Item>Categories panel</NavDropdown.Item>
-                  <NavDropdown.Item>
-                    Create administrator account
+                  <NavDropdown.Item as={Link} to="/showPending">
+                    Show pending adverts
                   </NavDropdown.Item>
-                  <NavDropdown.Item>Create moderator account</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/categories">
+                    Categories panel
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/createAdminMod">
+                    Create administrator or moderator account
+                  </NavDropdown.Item>
                 </NavDropdown>
               )}
             {userContext.userRole !== '' &&
               userContext.userRole !== null &&
               userContext.userRole === 'Moderator' && (
-                <NavDropdown title="Administrator panel">
-                  <NavDropdown.Item>Show pending adverts</NavDropdown.Item>
-                  <NavDropdown.Item>Categories panel</NavDropdown.Item>
+                <NavDropdown title="Moderator panel">
+                  <NavDropdown.Item as={Link} to="/showPending">
+                    Show pending adverts
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/categories">
+                    Categories panel
+                  </NavDropdown.Item>
                 </NavDropdown>
               )}
             {userContext.userRole !== '' && userContext.userRole !== null && (
@@ -68,7 +80,7 @@ const BootstrapNavbar = (props: any) => {
                 </Nav.Link>
               </>
             ) : (
-              <Nav.Link as={Link} to="/" onClick={props.logout()}>
+              <Nav.Link as={Link} to="/" onClick={props.handleLogout()}>
                 Logout
               </Nav.Link>
             )}

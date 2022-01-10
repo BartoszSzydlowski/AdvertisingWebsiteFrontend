@@ -1,16 +1,18 @@
 //import axios from 'axios';
 //import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import React, { useContext, useEffect, useState } from 'react';
+//import Cookies from 'js-cookie';
+import React, { useContext, 
+  //useEffect, 
+  //useState 
+} from 'react';
 import { Link } from 'react-router-dom';
 import { UserDataContext } from '../App';
 //import Endpoints from '../endpoints/endpoints';
 //import { IAdvert } from '../interfaces/advert/advert';
 
-const Home = () => {
+const Home: React.FC = () => {
   const userData = useContext(UserDataContext);
-  const [username, setUsername] = useState<string>('');
+  //const [username, setUsername] = useState<string>('');
   // const [adverts, setAdverts] = useState<Array<IAdvert>>([]);
   // const [error, setError] = useState<any>('');
   // const [isLoaded, setIsLoaded] = useState<boolean>(false);

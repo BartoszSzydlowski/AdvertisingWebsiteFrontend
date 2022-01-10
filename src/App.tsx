@@ -1,24 +1,12 @@
 import React, { createContext, useEffect, useState } from 'react';
 import './App.css';
-import BootstrapNavbar from './components/navbar/navbar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './pages';
-import About from './pages/about';
-import Create from './pages/advert/addAdvertForm';
-import LoginForm from './pages/user/loginForm';
 import Cookies from 'js-cookie';
-import RegisterForm from './pages/user/registerForm';
-import PagedAdverts from './pages/advert/pagedAdverts';
-import ConfirmEmailPage from './pages/user/confirmEmail';
-import ForgotPasswordForm from './pages/user/forgotPassword';
-import RecoverPasswordForm from './pages/user/recoverPassword';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import SingleAdvert from './pages/advert/singleAdvert';
 import { ToastContainer } from 'react-toastify';
-import UserAdverts from './pages/advert/userAdverts';
+import Routes from './Routes';
 
 export const UserDataContext = createContext({ username: '', userRole: '' });
 //export const RoleContext = createContext('');
@@ -28,36 +16,26 @@ const App: React.FC = () => {
   const [userRole, setUserRole] = useState<string>('');
   const [username, setUsername] = useState<string>('');
 
-  const getUserRole = () => {
+  const getUserData = () => {
     axios
-      .get('https://localhost:44320/api/Identity/GetUserRole', {
-        headers: {
-          Authorization: `Bearer ${Cookies.get('Token')}`
-        }
-      })
-      .then(response => {
-        setUserRole(response.data.role);
-        //console.log(response.data.role);
-      });
-  };
-
-  const getUserName = () => {
-    axios
-      .get('https://localhost:44320/api/Identity/GetUserName', {
+      .get('https://localhost:44320/api/Identity/GetUserData', {
         headers: {
           Authorization: `Bearer ${Cookies.get('Token')}`
         }
       })
       .then(response => {
         setUsername(response.data.username);
-      });
+        setUserRole(response.data.role);
+      })
+      .catch(error => console.log(error));
   };
 
   useEffect(() => {
     if (Cookies.get('Token')) {
       setIsLoggedIn(true);
-      getUserRole();
-      getUserName();
+      //getUserRole();
+      //getUserName();
+      getUserData();
     }
   }, [isLoggedIn]);
 
@@ -67,54 +45,23 @@ const App: React.FC = () => {
     }
     Cookies.set('Token', token, { expires: new Date(expiration) });
     setIsLoggedIn(true);
-    getUserRole();
-    getUserName();
+    //getUserRole();
+    //getUserName();
+      getUserData();
   };
 
   const handleLogout = () => () => {
     setIsLoggedIn(false);
     Cookies.remove('Token');
-    getUserRole();
-    getUserName();
+    //getUserRole();
+    //getUserName();
+      getUserData();
   };
 
   return (
-    <UserDataContext.Provider
-      value={{ username: username, userRole: userRole }}
-    >
+    <UserDataContext.Provider value={{ username: username, userRole: userRole }}>
       <div className="App" style={{ height: '100%' }}>
-        <Router>
-          <BootstrapNavbar isLoggedIn={isLoggedIn} logout={handleLogout} />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/createAdvert" component={Create} />
-            {/* <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} /> */}
-            <Route
-              path="/login"
-              component={(props: {
-                handleLogin: () => void;
-                setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-              }) => (
-                <LoginForm
-                  {...props}
-                  handleLogin={handleLogin}
-                  setIsLoggedIn={setIsLoggedIn}
-                />
-              )}
-            />
-            <Route path="/register" component={RegisterForm} />
-            <Route path="/confirmEmail" component={ConfirmEmailPage} />
-            <Route path="/forgotPassword" component={ForgotPasswordForm} />
-            <Route path="/recoverPassword" component={RecoverPasswordForm} />
-            <Route path="/adverts/:id" component={SingleAdvert} />
-            <Route path="/adverts" component={PagedAdverts} />
-            <Route path="/myAdverts" component={UserAdverts} />
-            <Route path="/editAdvert/:id" />
-            <Route path="/createAdmin" />
-            <Route path="/createMod" />
-          </Switch>
-        </Router>
+        <Routes isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} />
       </div>
       <ToastContainer
         position="top-right"

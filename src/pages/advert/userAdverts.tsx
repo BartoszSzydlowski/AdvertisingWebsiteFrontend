@@ -6,9 +6,9 @@ import Endpoints from '../../endpoints/endpoints';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const UserAdverts = () => {
+const UserAdverts: React.FC = () => {
   const [adverts, setAdverts] = useState<Array<IAdvert>>([]);
-  const [error, setError] = useState<any>('');
+  const [error, setError] = useState<{ message: string }>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -17,7 +17,7 @@ const UserAdverts = () => {
     const token = Cookies.get('Token');
     axios
       .get(
-        `${Endpoints.defaultEndpoint}/api/Adverts/GetAllPagedByUserId?PageNumber=${page}&PageSize=10&Ascending=true`,
+        `${Endpoints.defaultEndpoint}/Adverts/GetAllPagedByUserId?PageNumber=${page}&PageSize=10&Ascending=true`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -50,7 +50,7 @@ const UserAdverts = () => {
     return (
       <div>
         <div style={{ margin: '5px' }}>
-          {adverts.map((advert: any) => {
+          {adverts.map((advert: IAdvert) => {
             return (
               <div key={`${advert.id}`} id={`${advert.id}`}>
                 <Link to={`adverts/${advert.id}`}>{advert.name}</Link>
@@ -62,7 +62,7 @@ const UserAdverts = () => {
         </div>
         <Pagination
           pageNumbers={totalPages}
-          onClick={(e: any) => setPage(parseInt(e.currentTarget.value))}
+          onClick={(e: React.FormEvent<HTMLInputElement>) => setPage(parseInt(e.currentTarget.value))}
           activePage={page}
           setActivePage={setPage}
         />

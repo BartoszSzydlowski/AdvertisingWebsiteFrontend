@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
 import RegisterModel from '../../interfaces/user/user';
 
-const RegisterForm = () => {
+const RegisterForm: React.FC = () => {
   const [newUser, setNewUser] = useState<RegisterModel>({
     username: '',
     email: '',
@@ -12,12 +12,12 @@ const RegisterForm = () => {
   });
   const [isPending, setIsPending] = useState<boolean>(false);
 
-  const register = (e: any) => {
+  const register = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsPending(true);
     axios
       .post(
-        `${Endpoints.defaultEndpoint}/api/Identity/Register`,
+        `${Endpoints.defaultEndpoint}/Identity/Register`,
         JSON.stringify(newUser),
         {
           headers: {
@@ -25,7 +25,7 @@ const RegisterForm = () => {
           }
         }
       )
-      .then(res => {
+      .then(() => {
         setIsPending(false);
       })
       .catch(error => {

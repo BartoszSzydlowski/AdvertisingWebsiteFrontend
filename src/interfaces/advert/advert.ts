@@ -1,5 +1,5 @@
-import { Category } from '../category/category';
-import { Picture } from '../picture/picture';
+import { ICategory } from '../category/category';
+import { IPicture } from '../picture/picture';
 
 export interface IAdvert {
   id: number;
@@ -7,12 +7,12 @@ export interface IAdvert {
   description: string;
   price: number;
   categoryId: number;
-  category: Category;
+  category: ICategory;
   isPromoted: boolean;
   isAccepted: boolean;
   isExpired: boolean;
   userId: string;
-  pictures: Array<Picture>;
+  pictures: Array<IPicture>;
 }
 
 export interface ICreateAdvert {

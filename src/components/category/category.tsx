@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Endpoints from '../../endpoints/endpoints';
-import { Category } from '../../interfaces/category/category';
+import { ICategory } from '../../interfaces/category/category';
 import axios from 'axios';
 
-const GetCategory = ({ event }: any) => {
-  const [categories, setCategories] = useState<Array<Category>>([]);
+// interface ICategoriesProps {
+//   onChange: (handler: React.ChangeEvent<HTMLSelectElement>) => void;
+// }
+
+const GetCategory: React.FC<{ onChange: React.ChangeEventHandler<HTMLSelectElement> }> = (props) => {
+  const [categories, setCategories] = useState<Array<ICategory>>([]);
 
   useEffect(() => {
-    axios.get(`${Endpoints.defaultEndpoint}/api/categories`).then(data => {
+    axios.get(`${Endpoints.defaultEndpoint}/categories`).then(data => {
       setCategories(data.data);
     });
   }, []);
 
   return (
-    <select style={{ width: '100%' }} onChange={event}>
+    <select style={{ width: '100%' }} onChange={props.onChange}>
       {categories &&
         categories.map(el => (
           <option key={el.id.toString()} id={el.id.toString()} value={el.id}>
