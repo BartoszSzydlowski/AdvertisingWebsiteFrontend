@@ -99,8 +99,8 @@ const CreateAdminMod: React.FC = () => {
       {!isPending && <button>Register</button>}
       {isPending && <button disabled>Register in progress</button>}
     </form>
-    <input type="radio" value="Administrator" name="userrank" onChange={e => setUserrank(e.target.value)}/> Administrator
-    <input type="radio" value="Moderator" name="userrank" onChange={e => setUserrank(e.target.value)}/> Moderator
+    <input type="radio" value="Administrator" name="userrank" onChange={e => setUserrank(e.target.value)} checked={userrank === "Administrator"} /> Administrator
+    <input type="radio" value="Moderator" name="userrank" onChange={e => setUserrank(e.target.value)} checked={!(userrank === "Administrator")} /> Moderator
   </div>
   );
 }

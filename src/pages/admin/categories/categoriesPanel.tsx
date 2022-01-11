@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Endpoints from '../../endpoints/endpoints';
-import { ICategory } from '../../interfaces/category/category';
+import Endpoints from '../../../endpoints/endpoints';
+import { ICategory } from '../../../interfaces/category/category';
 
 const CategoriesPanel: React.FC = () => {
   const [categories, setCategories] = useState<Array<ICategory>>([]);

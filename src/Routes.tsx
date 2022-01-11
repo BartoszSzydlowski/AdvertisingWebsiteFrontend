@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BootstrapNavbar from './components/navbar/navbar';
 import Home from './pages';
 import About from './pages/about';
-import CategoriesPanel from './pages/admin/categoriesPanel';
+import CategoriesPanel from './pages/admin/categories/categoriesPanel';
 import CreateAdminMod from './pages/admin/createAdminMod';
 import Create from './pages/advert/addAdvertForm';
 import PagedAdverts from './pages/advert/pagedAdverts';
@@ -49,7 +49,10 @@ const Routes: React.FC<IRoutesProps> = (props) => {
         <Route path="/myAdverts" component={UserAdverts} />
         <Route path="/editAdvert/:id" />
         <Route path="/createAdminMod" component={CreateAdminMod}/>
+        <Route path="/categories/:id" component={CategoriesPanel}/>
         <Route path="/categories" component={CategoriesPanel}/>
+        <Route path="/createCategory" component={CategoriesPanel}/>
+        <Route path="/showByCategories" component={CategoriesPanel}/>
       </Switch>
     </Router>
   )
