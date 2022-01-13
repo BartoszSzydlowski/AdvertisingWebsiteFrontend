@@ -36,6 +36,11 @@ const SingleAdvert: React.FC = () => {
           <p id={advert.category.id.toString()}>
             Category: {advert.category.name}
           </p>
+          <div>
+            {advert.pictures.map((picture, index) => (
+              <img key={index} src={`https://localhost:44320/${picture.path}`} alt={`${picture.uniqueName.substring(0, picture.uniqueName.length - 4)}`} style={{ height: '50%', width: '50%' }}/>
+            ))}
+          </div>
         </>
       )}
       {/* <p>{advert && advert.id}</p>

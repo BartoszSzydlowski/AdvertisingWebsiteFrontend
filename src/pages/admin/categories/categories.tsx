@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Endpoints from '../../../endpoints/endpoints';
 import { ICategory } from '../../../interfaces/category/category';
 
-const CategoriesPanel: React.FC = () => {
+const Categories: React.FC = () => {
   const [categories, setCategories] = useState<Array<ICategory>>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -24,6 +25,23 @@ const CategoriesPanel: React.FC = () => {
       });
   };
 
+  const deleteCategory = (categoryId: number, categoryName: string) => {
+    const isConfirmed = confirm(`Are you sure you want to remove ${categoryName}?`);
+
+    if (isConfirmed) {
+      axios.delete(`${Endpoints.defaultEndpoint}/categories/${categoryId}`)
+      .then(() => {
+        console.log("Deleted category");
+      })
+      .then(() => {
+        getCategories();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+  }
+
   useEffect(() => {
     getCategories();
   }, [])
@@ -34,15 +52,20 @@ const CategoriesPanel: React.FC = () => {
     return <div>Loading categories...</div>;
   } else {
     return (
-      <div>
+      <>
         {categories && categories.map(category => (
-          <div key={category.id}>
-            {category.name}
-          </div>
+          <>
+            <div key={category.id}>
+              <Link to={`categories/${category.id}`}>{category.name}</Link>
+              <Link to='/'><input type="submit" value="Edit" /></Link>
+              <input type="submit" value="Delete" onClick={(() => deleteCategory(category.id, category.name))}/>
+            </div>
+          </>
         ))}
-      </div>
+        <Link to="/createCategory"><input type="submit" value="Add new category"/></Link>
+      </>
     )
   }
 }
 
-export default CategoriesPanel;
+export default Categories;

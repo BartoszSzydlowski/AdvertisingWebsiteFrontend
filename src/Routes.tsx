@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BootstrapNavbar from './components/navbar/navbar';
 import Home from './pages';
 import About from './pages/about';
-import CategoriesPanel from './pages/admin/categories/categoriesPanel';
+import Categories from './pages/admin/categories/categories';
+import CreateCategory from './pages/admin/categories/createCategory';
+import SingleCategory from './pages/admin/categories/singleCategory';
 import CreateAdminMod from './pages/admin/createAdminMod';
 import Create from './pages/advert/addAdvertForm';
 import PagedAdverts from './pages/advert/pagedAdverts';
@@ -30,16 +32,7 @@ const Routes: React.FC<IRoutesProps> = (props) => {
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/createAdvert" component={Create} />
-        {/* <Route path="/login" component={(props: any) => <LoginForm {...props} handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} /> */}
-        <Route
-          path="/login"
-          component={() => (
-            <LoginForm
-              handleLogin={props.handleLogin}
-              setIsLoggedIn={props.setIsLoggedIn}
-            />
-          )}
-        />
+        <Route path="/login" component={() => (<LoginForm handleLogin={props.handleLogin} setIsLoggedIn={props.setIsLoggedIn} />)} />
         <Route path="/register" component={RegisterForm} />
         <Route path="/confirmEmail" component={ConfirmEmailPage} />
         <Route path="/forgotPassword" component={ForgotPasswordForm} />
@@ -49,10 +42,10 @@ const Routes: React.FC<IRoutesProps> = (props) => {
         <Route path="/myAdverts" component={UserAdverts} />
         <Route path="/editAdvert/:id" />
         <Route path="/createAdminMod" component={CreateAdminMod}/>
-        <Route path="/categories/:id" component={CategoriesPanel}/>
-        <Route path="/categories" component={CategoriesPanel}/>
-        <Route path="/createCategory" component={CategoriesPanel}/>
-        <Route path="/showByCategories" component={CategoriesPanel}/>
+        <Route path="/categories/:id" component={SingleCategory}/>
+        <Route path="/categories" component={Categories}/>
+        <Route path="/createCategory" component={CreateCategory}/>
+        <Route path="/showByCategories" component={Categories}/>
       </Switch>
     </Router>
   )

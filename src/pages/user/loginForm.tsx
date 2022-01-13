@@ -42,7 +42,6 @@ const LoginForm: React.FC<ILoginFormProps> = (props) => {
       })
       .catch(() => {
         setIsPending(false);
-        //console.log(error);
         toast.error('Failed to login');
       });
   };

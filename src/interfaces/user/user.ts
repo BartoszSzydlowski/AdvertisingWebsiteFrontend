@@ -9,3 +9,9 @@ export default interface RegisterModel {
   password?: string;
   confirmPassword?: string;
 }
+
+export default interface UserData {
+  username?: string;
+  phoneNumber?: string;
+  email?: string;
+}

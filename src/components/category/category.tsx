@@ -8,6 +8,7 @@ import axios from 'axios';
 // }
 
 const GetCategory: React.FC<{ onChange: React.ChangeEventHandler<HTMLSelectElement> }> = (props) => {
+//const GetCategory: React.FC<{ onChange: React.ChangeEventHandler<HTMLSelectElement> }> = (props) => {
   const [categories, setCategories] = useState<Array<ICategory>>([]);
 
   useEffect(() => {

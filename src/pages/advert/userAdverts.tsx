@@ -5,6 +5,7 @@ import Pagination from '../../components/pagination/pagination';
 import Endpoints from '../../endpoints/endpoints';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 const UserAdverts: React.FC = () => {
   const [adverts, setAdverts] = useState<Array<IAdvert>>([]);
@@ -38,6 +39,29 @@ const UserAdverts: React.FC = () => {
       });
   };
 
+  const deleteAdvert = (advertId: number, advertName: string) => {
+    const isConfirmed = confirm(`Are you sure you want to remove ${advertName}?`);
+    const token = Cookies.get('Token');
+
+    if (isConfirmed) {
+      axios.delete(`${Endpoints.defaultEndpoint}/adverts/${advertId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(() => {
+        console.log("Deleted category");
+        toast(`Successfully removed ${advertName}`)
+      })
+      .then(() => {
+        getAdverts();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+  }
+
   useEffect(() => {
     getAdverts();
   }, [page]);
@@ -55,7 +79,7 @@ const UserAdverts: React.FC = () => {
               <div key={`${advert.id}`} id={`${advert.id}`}>
                 <Link to={`adverts/${advert.id}`}>{advert.name}</Link>
                 <input type="submit" value="Edit" />
-                <input type="submit" value="Delete" />
+                <input type="submit" value="Delete" onClick={() => deleteAdvert(advert.id, advert.name)}/>
               </div>
             );
           })}

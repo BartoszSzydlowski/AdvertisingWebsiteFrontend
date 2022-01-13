@@ -18,7 +18,7 @@ const App: React.FC = () => {
 
   const getUserData = () => {
     axios
-      .get('https://localhost:44320/api/Identity/GetUserData', {
+      .get('https://localhost:44320/api/Identity/GetUserNameAndRole', {
         headers: {
           Authorization: `Bearer ${Cookies.get('Token')}`
         }

@@ -66,26 +66,20 @@ const Create: React.FC = () => {
 
     const token = Cookies.get('Token');
 
-    await axios
-      .post(
-        `${Endpoints.defaultEndpoint}/adverts`,
-        JSON.stringify(advert),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          }
-        }
-      )
-      .then(async data => {
-        await addPicture(data.data.data.id);
-        setIsPending(false);
-        //console.log(data.data.data.id);
-      })
-      .catch(error => {
-        setIsPending(false);
-        console.log(error);
-      });
+    await axios.post(`${Endpoints.defaultEndpoint}/adverts`, JSON.stringify(advert), {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(async data => {
+      await addPicture(data.data.data.id);
+      setIsPending(false);
+    })
+    .catch(error => {
+      setIsPending(false);
+      console.log(error);
+    });
   };
 
   return (
@@ -98,16 +92,7 @@ const Create: React.FC = () => {
                 <label>Name: </label>
               </td>
               <td>
-                <input
-                  type="text"
-                  value={advert.name}
-                  onChange={e =>
-                    setAdvert(prev => ({
-                      ...prev,
-                      name: e.target.value
-                    }))
-                  }
-                />
+                <input type="text" value={advert.name} onChange={ e => setAdvert(prev => ({...prev, name: e.target.value })) } />
               </td>
             </tr>
             <tr>
@@ -115,16 +100,7 @@ const Create: React.FC = () => {
                 <label>Description: </label>
               </td>
               <td>
-                <input
-                  type="text"
-                  value={advert.description}
-                  onChange={e =>
-                    setAdvert(prev => ({
-                      ...prev,
-                      description: e.target.value
-                    }))
-                  }
-                />
+                <input type="text" value={advert.description} onChange={ e => setAdvert(prev => ({ ...prev, description: e.target.value })) } />
               </td>
             </tr>
             <tr>
@@ -132,16 +108,7 @@ const Create: React.FC = () => {
                 <label>Price: </label>
               </td>
               <td>
-                <input
-                  type="text"
-                  value={advert.price}
-                  onChange={e =>
-                    setAdvert(prev => ({
-                      ...prev,
-                      price: parseInt(e.target.value)
-                    }))
-                  }
-                />
+                <input type="text" value={advert.price} onChange={ e => setAdvert(prev => ({ ...prev, price: parseInt(e.target.value) })) } />
               </td>
             </tr>
             <tr>
@@ -149,32 +116,19 @@ const Create: React.FC = () => {
                 <label>Category: </label>
               </td>
               <td>
-                <GetCategory
-                  onChange={(e: any) => {
-                    setAdvert(prev => ({
-                      ...prev,
-                      categoryId: parseInt(e.target.value)
-                    }));
-                  }}
-                />
+                <GetCategory onChange={(e: any) => { setAdvert(prev => ({ ...prev, categoryId: parseInt(e.target.value) })) }} />
               </td>
             </tr>
           </tbody>
         </table>
         {photoInputs.map((photoInput: any, inputNumber: number) => {
           return (
-            <PhotoInput
-              key={inputNumber}
-              checked={photoInput.checked}
-              onChecked={() => onChecked(inputNumber)}
-            />
+            <PhotoInput key={inputNumber} checked={photoInput.checked} onChecked={() => onChecked(inputNumber)} />
           );
         })}
         <div>
           {!isPending && <input type="submit" value="Add advert" />}
-          {isPending && (
-            <input type="submit" value="Adding advert" disabled={true} />
-          )}
+          {isPending && <input type="submit" value="Adding advert" disabled={true} />}
         </div>
       </form>
       <div style={{ marginTop: '5px' }}>
