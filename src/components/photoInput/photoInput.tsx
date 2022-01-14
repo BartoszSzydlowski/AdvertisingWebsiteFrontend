@@ -1,16 +1,8 @@
-import React, { ChangeEventHandler } from 'react';
+import React from 'react';
 interface IPhotoInputProps {
   checked: boolean;
-  onChecked: ChangeEventHandler;
+  onChecked: React.ChangeEventHandler<HTMLInputElement>;
 }
-
-// const Input = () => {
-//   return (
-//     <div>
-//       <input type="file" className="files" />
-//     </div>
-//   );
-// };
 
 const PhotoInput: React.FC<IPhotoInputProps> = (props) => {
   return (

@@ -1,17 +1,41 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Pagination from '../../components/pagination/pagination';
-import Endpoints from '../../endpoints/endpoints';
-import { IAdvert } from '../../interfaces/advert/advert';
+import { toast } from 'react-toastify';
+import Pagination from '../../../components/pagination/pagination';
+import Endpoints from '../../../endpoints/endpoints';
+import { IAdvert } from '../../../interfaces/advert/advert';
 
-const PagedAdverts: React.FC = () => {
+const ManageAdverts: React.FC = () => {
   const [adverts, setAdverts] = useState<Array<IAdvert>>([]);
   const [error, setError] = useState<{ message: string }>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
 
+  const deleteAdvert = (advertId: number, advertName: string) => {
+    const isConfirmed = confirm(`Are you sure you want to remove ${advertName}?`);
+    const token = Cookies.get('Token');
+
+    if (isConfirmed) {
+      axios.delete(`${Endpoints.defaultEndpoint}/adverts/${advertId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(() => {
+        toast(`Successfully removed ${advertName}`)
+      })
+      .then(() => {
+        getAdverts();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+  }
+  
   const getAdverts = () => {
     axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`)
       .then(response => {
@@ -39,7 +63,9 @@ const PagedAdverts: React.FC = () => {
         <div style={{ margin: '5px' }}>
           {adverts.map(advert => (
             <div key={`${advert.id}`} id={`${advert.id}`}>
-              <Link to={`adverts/${advert.id}`}>{advert.name}</Link>
+              <Link to={`adverts/${advert.id}`}>Id: {advert.id} Name: {advert.name}</Link>
+              <input type="submit" value="Edit" />
+              <input type="submit" value="Delete" onClick={() => deleteAdvert(advert.id, advert.name)}/>
             </div>
           ))}
         </div>
@@ -54,4 +80,4 @@ const PagedAdverts: React.FC = () => {
   }
 };
 
-export default PagedAdverts;
+export default ManageAdverts;

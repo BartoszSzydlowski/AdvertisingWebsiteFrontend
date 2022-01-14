@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { UserDataContext } from '../../App';
+import CategoriesNavbar from '../category/categoryNavbar';
 
 interface IBootstrapNavbarProps {
   isLoggedIn: boolean;
@@ -26,18 +27,31 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
             <Nav.Link as={Link} to="/about">
               About
             </Nav.Link>
-            <Nav.Link as={Link} to="/adverts">
-              Paged adverts
-            </Nav.Link>
-            {userContext.userRole !== '' &&
-              userContext.userRole !== null &&
-              (userContext.userRole === 'User' ||
-                userContext.userRole === 'Admin' ||
-                userContext.userRole === 'Moderator') && (
-                <Nav.Link as={Link} to="/createAdvert">
-                  Add new advert
-                </Nav.Link>
+            {/* <Nav.Link as={Link} to="/adverts">
+              Adverts
+            </Nav.Link> */}
+            <NavDropdown title="Adverts">
+              <NavDropdown.Item as={Link} to="/adverts">
+                Show all
+              </NavDropdown.Item>
+              <NavDropdown.Item as ={Link} to="/search">
+                Search
+              </NavDropdown.Item>
+              {userContext.userRole !== '' && userContext.userRole !== null && (
+                userContext.userRole === 'User' || userContext.userRole === 'Admin' || userContext.userRole === 'Moderator') && (
+                  <NavDropdown.Item as={Link} to="/createAdvert">
+                    Add new advert
+                  </NavDropdown.Item>
               )}
+              {userContext.userRole !== '' && userContext.userRole !== null && (
+                <NavDropdown.Item as={Link} to="/myAdverts">
+                  My adverts
+                </NavDropdown.Item>
+              )}
+            </NavDropdown>
+            <NavDropdown title="Show adverts from category">
+              <CategoriesNavbar />
+            </NavDropdown>
             {userContext.userRole !== '' &&
               userContext.userRole !== null &&
               userContext.userRole === 'Admin' && (
@@ -51,6 +65,9 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
                   <NavDropdown.Item as={Link} to="/createAdminMod">
                     Create administrator or moderator account
                   </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/manageAdverts">
+                    Manage adverts
+                  </NavDropdown.Item>
                 </NavDropdown>
               )}
             {userContext.userRole !== '' &&
@@ -63,12 +80,10 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
                   <NavDropdown.Item as={Link} to="/categories">
                     Categories panel
                   </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/manageAdverts">
+                    Manage adverts
+                  </NavDropdown.Item>
                 </NavDropdown>
-              )}
-            {userContext.userRole !== '' && userContext.userRole !== null && (
-              <Nav.Link as={Link} to="/myAdverts">
-                My adverts
-              </Nav.Link>
             )}
             {!props.isLoggedIn ? (
               <>

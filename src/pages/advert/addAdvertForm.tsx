@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Endpoints from '../../endpoints/endpoints';
 import { ICreateAdvert } from '../../interfaces/advert/advert';
-import GetCategory from '../../components/category/category';
+import GetCategory from '../../components/category/categorySelect';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import PhotoInput from '../../components/photoInput/photoInput';
@@ -40,24 +40,18 @@ const Create: React.FC = () => {
       formData.append('files', picture.files[0], picture.files[0].filename);
     });
 
-    await axios
-      .post(
-        `${Endpoints.defaultEndpoint}/pictures?` +
-          new URLSearchParams({ advertId: advertId.toString() }),
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      )
-      .then(data => {
-        console.log(data.data);
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+    await axios.post(`${Endpoints.defaultEndpoint}/pictures?` + new URLSearchParams({ advertId: advertId.toString() }), formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(data => {
+      console.log(data.data);
+    })
+    .catch(error => {
+      console.log(error.message);
+    });
   };
 
   const submit = async (e: React.SyntheticEvent) => {
@@ -116,7 +110,7 @@ const Create: React.FC = () => {
                 <label>Category: </label>
               </td>
               <td>
-                <GetCategory onChange={(e: any) => { setAdvert(prev => ({ ...prev, categoryId: parseInt(e.target.value) })) }} />
+                <GetCategory onChange={(e) => { setAdvert(prev => ({ ...prev, categoryId: parseInt(e.target.value) })) }} />
               </td>
             </tr>
           </tbody>
@@ -128,12 +122,12 @@ const Create: React.FC = () => {
         })}
         <div>
           {!isPending && <input type="submit" value="Add advert" />}
-          {isPending && <input type="submit" value="Adding advert" disabled={true} />}
+          {isPending && <input type="submit" value="Add advert" disabled={true} />}
         </div>
       </form>
       <div style={{ marginTop: '5px' }}>
-        <input type="submit" onClick={addInput} value="Add more photos" />
-        <input type="submit" onClick={deleteInputs} value="Delete photos" />
+        <input type="button" onClick={addInput} value="Add more photos" />
+        <input type="button" onClick={deleteInputs} value="Delete photos" />
       </div>
     </div>
   );

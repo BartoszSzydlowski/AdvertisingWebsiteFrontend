@@ -20,9 +20,9 @@ const GetCategory: React.FC<{ onChange: React.ChangeEventHandler<HTMLSelectEleme
   return (
     <select style={{ width: '100%' }} onChange={props.onChange}>
       {categories &&
-        categories.map(el => (
-          <option key={el.id.toString()} id={el.id.toString()} value={el.id}>
-            {el.name}
+        categories.map(category => (
+          <option key={category.id.toString()} id={category.id.toString()} value={category.id}>
+            {category.name}
           </option>
         ))}
     </select>

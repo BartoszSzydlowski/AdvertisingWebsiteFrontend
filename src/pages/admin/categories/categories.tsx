@@ -8,10 +8,6 @@ const Categories: React.FC = () => {
   const [categories, setCategories] = useState<Array<ICategory>>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  // axios.get(`${Endpoints.defaultEndpoint}/categories`)
-  //   .then(response => {
-  //     setCategories(response.data);
-  //   });
 
   const getCategories = () => {
     axios.get(`${Endpoints.defaultEndpoint}/categories`)
@@ -55,7 +51,7 @@ const Categories: React.FC = () => {
       <>
         {categories && categories.map(category => (
           <>
-            <div key={category.id}>
+            <div key={category.id} id={category.id.toString()}>
               <Link to={`categories/${category.id}`}>{category.name}</Link>
               <Link to='/'><input type="submit" value="Edit" /></Link>
               <input type="submit" value="Delete" onClick={(() => deleteCategory(category.id, category.name))}/>

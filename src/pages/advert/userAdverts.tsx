@@ -29,9 +29,6 @@ const UserAdverts: React.FC = () => {
         setTotalPages(response.data.totalPages);
         setAdverts(response.data.data);
         setIsLoaded(true);
-        // console.log(response.data.totalPages);
-        // console.log(response.data.data);
-        //console.log(response);
       })
       .catch(error => {
         setIsLoaded(false);
