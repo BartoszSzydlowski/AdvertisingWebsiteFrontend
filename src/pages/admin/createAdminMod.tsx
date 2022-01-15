@@ -12,8 +12,6 @@ const CreateAdminMod: React.FC = () => {
   });
   const [isPending, setIsPending] = useState<boolean>(false);
   const [userrank, setUserrank] = useState<string>('Administrator');
-  
-  console.log(userrank);
 
   const register = (e: React.SyntheticEvent) => {
     e.preventDefault();

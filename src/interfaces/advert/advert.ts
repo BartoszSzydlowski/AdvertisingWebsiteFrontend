@@ -21,3 +21,14 @@ export interface ICreateAdvert {
   price: number;
   categoryId: number;
 }
+
+export interface IEditAdvert {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  isPromoted: boolean;
+  isAccepted: boolean;
+  isExpired: boolean;
+}

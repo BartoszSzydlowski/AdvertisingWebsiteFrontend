@@ -110,14 +110,14 @@ const Create: React.FC = () => {
                 <label>Category: </label>
               </td>
               <td>
-                <GetCategory onChange={(e) => { setAdvert(prev => ({ ...prev, categoryId: parseInt(e.target.value) })) }} />
+                <GetCategory onChange={e => { setAdvert(prev => ({ ...prev, categoryId: parseInt(e.target.value) })) }} />
               </td>
             </tr>
           </tbody>
         </table>
-        {photoInputs.map((photoInput: any, inputNumber: number) => {
+        {photoInputs.map((photoInput: any, index: number) => {
           return (
-            <PhotoInput key={inputNumber} checked={photoInput.checked} onChecked={() => onChecked(inputNumber)} />
+            <PhotoInput key={index} checked={photoInput.checked} onChecked={() => onChecked(index)} />
           );
         })}
         <div>

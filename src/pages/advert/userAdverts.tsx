@@ -75,7 +75,7 @@ const UserAdverts: React.FC = () => {
             return (
               <div key={`${advert.id}`} id={`${advert.id}`}>
                 <Link to={`adverts/${advert.id}`}>{advert.name}</Link>
-                <input type="submit" value="Edit" />
+                <Link to={`editAdvert/${advert.id}`}><input type="submit" value="Edit" /></Link>
                 <input type="submit" value="Delete" onClick={() => deleteAdvert(advert.id, advert.name)}/>
               </div>
             );

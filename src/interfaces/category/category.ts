@@ -4,7 +4,7 @@ export interface ICategory {
   id: number;
   name: string;
   description: string;
-  creationDate: Date;
+  creationDate?: Date;
 }
 
 export interface ICreateCategory {

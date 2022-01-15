@@ -34,7 +34,7 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
               <NavDropdown.Item as={Link} to="/adverts">
                 Show all
               </NavDropdown.Item>
-              <NavDropdown.Item as ={Link} to="/search">
+              <NavDropdown.Item as ={Link} to="/searchAdverts">
                 Search
               </NavDropdown.Item>
               {userContext.userRole !== '' && userContext.userRole !== null && (

@@ -50,13 +50,11 @@ const Categories: React.FC = () => {
     return (
       <>
         {categories && categories.map(category => (
-          <>
-            <div key={category.id} id={category.id.toString()}>
-              <Link to={`categories/${category.id}`}>{category.name}</Link>
-              <Link to='/'><input type="submit" value="Edit" /></Link>
-              <input type="submit" value="Delete" onClick={(() => deleteCategory(category.id, category.name))}/>
-            </div>
-          </>
+          <div key={category.id} id={category.id.toString()}>
+            <Link to={`categories/${category.id}`}>{category.name}</Link>
+            <Link to='/'><input type="submit" value="Edit" /></Link>
+            <input type="submit" value="Delete" onClick={(() => deleteCategory(category.id, category.name))}/>
+          </div>
         ))}
         <Link to="/createCategory"><input type="submit" value="Add new category"/></Link>
       </>
