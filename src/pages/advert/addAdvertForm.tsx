@@ -14,7 +14,7 @@ const Create: React.FC = () => {
     categoryId: 1
   });
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [photoInputs, setPhotoInputs] = useState<any>([{ checked: false }]);
+  const [photoInputs, setPhotoInputs] = useState<{ checked: boolean }[]>([{ checked: false }]);
 
   const onChecked = (input: number) => {
     const getCheckedPhotoInputs = [...photoInputs];
@@ -28,7 +28,7 @@ const Create: React.FC = () => {
   };
 
   const deleteInputs = () => {
-    setPhotoInputs(photoInputs.filter((e: any) => !e.checked));
+    setPhotoInputs(photoInputs.filter((e) => !e.checked));
   };
   //console.log(advert);
 
@@ -115,7 +115,7 @@ const Create: React.FC = () => {
             </tr>
           </tbody>
         </table>
-        {photoInputs.map((photoInput: any, index: number) => {
+        {photoInputs.map((photoInput, index) => {
           return (
             <PhotoInput key={index} checked={photoInput.checked} onChecked={() => onChecked(index)} />
           );
