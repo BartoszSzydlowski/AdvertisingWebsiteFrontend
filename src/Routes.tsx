@@ -7,8 +7,10 @@ import BootstrapNavbar from './components/navbar/navbar';
 import Home from './pages';
 import About from './pages/about';
 import ManageAdverts from './pages/admin/adverts/manageAdverts';
+import ShowPendingAdverts from './pages/admin/adverts/showPendingAdverts';
 import Categories from './pages/admin/categories/categories';
 import CreateCategory from './pages/admin/categories/createCategory';
+import EditCategoryForm from './pages/admin/categories/editCategory';
 import SingleCategory from './pages/admin/categories/singleCategory';
 import CreateAdminMod from './pages/admin/createAdminMod';
 import Create from './pages/advert/addAdvertForm';
@@ -54,10 +56,12 @@ const Routes: React.FC<IRoutesProps> = (props) => {
         <Route path="/showByCategory/:id" component={ShowByAdvertsCategory} />
         <Route path="/manageAdverts" component={ManageAdverts} />
         <Route path="/searchAdverts" component={SearchAdverts} />
+        <Route path="/showPending" component={ShowPendingAdverts} />
 
         <Route path="/categories/:id" component={SingleCategory} />
         <Route path="/categories" component={Categories} />
         <Route path="/createCategory" component={CreateCategory} />
+        <Route path="/editCategory/:id" component={EditCategoryForm} />
       </Switch>
     </Router>
   )

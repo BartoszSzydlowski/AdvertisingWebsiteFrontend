@@ -27,9 +27,6 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
             <Nav.Link as={Link} to="/about">
               About
             </Nav.Link>
-            {/* <Nav.Link as={Link} to="/adverts">
-              Adverts
-            </Nav.Link> */}
             <NavDropdown title="Adverts">
               <NavDropdown.Item as={Link} to="/adverts">
                 Show all
@@ -62,11 +59,11 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
                   <NavDropdown.Item as={Link} to="/categories">
                     Categories panel
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/createAdminMod">
-                    Create administrator or moderator account
-                  </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/manageAdverts">
                     Manage adverts
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/createAdminMod">
+                    Create administrator or moderator account
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
@@ -95,9 +92,17 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
                 </Nav.Link>
               </>
             ) : (
-              <Nav.Link as={Link} to="/" onClick={props.handleLogout()}>
-                Logout
-              </Nav.Link>
+              <NavDropdown title={`Hi, ${userContext.username}`}>
+                <NavDropdown.Item as={Link} to="/manageAccount">
+                  Manage account
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/" onClick={props.handleLogout()}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+              // <Nav.Link as={Link} to="/" onClick={props.handleLogout()}>
+              //   Logout
+              // </Nav.Link>
             )}
           </Nav>
         </Navbar.Collapse>

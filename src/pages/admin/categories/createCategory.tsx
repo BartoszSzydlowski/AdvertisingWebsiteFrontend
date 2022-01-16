@@ -2,6 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Endpoints from '../../../endpoints/endpoints';
 import { ICreateCategory } from '../../../interfaces/category/category';
 
@@ -20,8 +21,8 @@ const CreateCategory: React.FC = () => {
         Authorization: `Bearer ${token}`,
       }
     })
-    .then(response => {
-      console.log(response);
+    .then(() => {
+      toast('Successfully created category. It now awaits accepting by moderator');
       history.push('/categories');
     })
     .catch(error => {

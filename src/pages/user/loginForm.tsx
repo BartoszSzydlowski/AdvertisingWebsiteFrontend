@@ -17,7 +17,6 @@ const LoginForm: React.FC<ILoginFormProps> = (props) => {
     password: ''
   });
   const [isPending, setIsPending] = useState<boolean>(false);
-
   const history = useHistory();
 
   const auth = (e: SyntheticEvent) => {
@@ -36,9 +35,11 @@ const LoginForm: React.FC<ILoginFormProps> = (props) => {
       .then(res => {
         setIsPending(false);
         props.setIsLoggedIn(true);
-        //console.log(res.data);
         props.handleLogin(res.data.token, res.data.expiration);
         history.push('/');
+      })
+      .then(() => {
+        toast(`Successfully logged in`);
       })
       .catch(() => {
         setIsPending(false);

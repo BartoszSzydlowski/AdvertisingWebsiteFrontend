@@ -1,5 +1,3 @@
-import { IAdvert } from '../advert/advert';
-
 export interface ICategory {
   id: number;
   name: string;
@@ -8,6 +6,11 @@ export interface ICategory {
 }
 
 export interface ICreateCategory {
+  name: string;
+  description: string;
+}
+
+export interface IEditCategory {
   name: string;
   description: string;
 }

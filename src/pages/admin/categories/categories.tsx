@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Endpoints from '../../../endpoints/endpoints';
 import { ICategory } from '../../../interfaces/category/category';
 
@@ -27,7 +28,7 @@ const Categories: React.FC = () => {
     if (isConfirmed) {
       axios.delete(`${Endpoints.defaultEndpoint}/categories/${categoryId}`)
       .then(() => {
-        console.log("Deleted category");
+        toast(`Deleted category ${categoryName}`);
       })
       .then(() => {
         getCategories();
@@ -52,7 +53,7 @@ const Categories: React.FC = () => {
         {categories && categories.map(category => (
           <div key={category.id} id={category.id.toString()}>
             <Link to={`categories/${category.id}`}>{category.name}</Link>
-            <Link to='/'><input type="submit" value="Edit" /></Link>
+            <Link to={`editCategory/${category.id}`}><input type="submit" value="Edit" /></Link>
             <input type="submit" value="Delete" onClick={(() => deleteCategory(category.id, category.name))}/>
           </div>
         ))}

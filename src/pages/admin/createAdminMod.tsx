@@ -25,7 +25,7 @@ const CreateAdminMod: React.FC = () => {
       .then(() => {
         setIsPending(false);
       })
-      .catch((error: unknown) => {
+      .catch(error => {
         setIsPending(false);
         console.log(error);
       });

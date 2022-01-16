@@ -13,7 +13,8 @@ const PagedAdverts: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(1);
 
   const getAdverts = () => {
-    axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`)
+    //axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`)
+    axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPagedByAcceptStatus?PageNumber=${page}&PageSize=10&Ascending=true&isAccepted=true`)
       .then(response => {
         setTotalPages(response.data.totalPages);
         setAdverts(response.data.data);

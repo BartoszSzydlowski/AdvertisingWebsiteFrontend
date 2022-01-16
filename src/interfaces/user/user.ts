@@ -6,6 +6,7 @@ export default interface LoginModel {
 export default interface RegisterModel {
   username?: string;
   email?: string;
+  phoneNumber?: string;
   password?: string;
   confirmPassword?: string;
 }

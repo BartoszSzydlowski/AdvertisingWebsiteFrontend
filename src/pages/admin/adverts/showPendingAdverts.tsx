@@ -7,12 +7,26 @@ import Pagination from '../../../components/pagination/pagination';
 import Endpoints from '../../../endpoints/endpoints';
 import { IAdvert } from '../../../interfaces/advert/advert';
 
-const ManageAdverts: React.FC = () => {
+const ShowPendingAdverts: React.FC = () => {
   const [adverts, setAdverts] = useState<Array<IAdvert>>([]);
   const [error, setError] = useState<{ message: string }>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+
+  const getAdverts = () => {
+    //axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`)
+    axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPagedByAcceptStatus?PageNumber=${page}&PageSize=10&Ascending=true&isAccepted=false`)
+      .then(response => {
+        setTotalPages(response.data.totalPages);
+        setAdverts(response.data.data);
+        setIsLoaded(true);
+      })
+      .catch(error => {
+        setIsLoaded(false);
+        setError(error);
+      });
+  };
 
   const deleteAdvert = (advertId: number, advertName: string) => {
     const isConfirmed = confirm(`Are you sure you want to remove ${advertName}?`);
@@ -35,19 +49,6 @@ const ManageAdverts: React.FC = () => {
       });
     }
   };
-  
-  const getAdverts = () => {
-    axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`)
-      .then(response => {
-        setTotalPages(response.data.totalPages);
-        setAdverts(response.data.data);
-        setIsLoaded(true);
-      })
-      .catch(error => {
-        setIsLoaded(false);
-        setError(error);
-      });
-  };
 
   useEffect(() => {
     getAdverts();
@@ -63,8 +64,8 @@ const ManageAdverts: React.FC = () => {
         <div style={{ margin: '5px' }}>
           {adverts.map(advert => (
             <div key={`${advert.id}`} id={`${advert.id}`}>
-              <Link to={`adverts/${advert.id}`}>Id: {advert.id} Name: {advert.name}</Link>
-                <Link to={`editAdvert/${advert.id}`}><input type="submit" value="Edit" /></Link>
+              <Link to={`adverts/${advert.id}`}>{advert.name}</Link>
+              <Link to={`editAdvert/${advert.id}`}><input type="submit" value="Edit" /></Link>
               <input type="submit" value="Delete" onClick={() => deleteAdvert(advert.id, advert.name)}/>
             </div>
           ))}
@@ -80,4 +81,4 @@ const ManageAdverts: React.FC = () => {
   }
 };
 
-export default ManageAdverts;
+export default ShowPendingAdverts;

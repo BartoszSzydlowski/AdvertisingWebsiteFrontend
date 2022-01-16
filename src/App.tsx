@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import Routes from './Routes';
 
 export const UserDataContext = createContext({ username: '', userRole: '' });
@@ -33,8 +33,6 @@ const App: React.FC = () => {
   useEffect(() => {
     if (Cookies.get('Token')) {
       setIsLoggedIn(true);
-      //getUserRole();
-      //getUserName();
       getUserData();
     }
   }, [isLoggedIn]);
@@ -45,17 +43,14 @@ const App: React.FC = () => {
     }
     Cookies.set('Token', token, { expires: new Date(expiration) });
     setIsLoggedIn(true);
-    //getUserRole();
-    //getUserName();
-      getUserData();
+    getUserData();
   };
 
   const handleLogout = () => () => {
     setIsLoggedIn(false);
     Cookies.remove('Token');
-    //getUserRole();
-    //getUserName();
-      getUserData();
+    getUserData();
+    toast("Successfully logged out");
   };
 
   return (

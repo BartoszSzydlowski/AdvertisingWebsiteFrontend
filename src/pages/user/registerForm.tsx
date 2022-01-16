@@ -38,6 +38,10 @@ const RegisterForm: React.FC = () => {
         </div>
 
         <div>
+          <input type="text" placeholder="Phone number" value={newUser.phoneNumber} onChange={e => setNewUser(prev => ({ ...prev, phoneNumber: e.target.value }))} />
+        </div>
+
+        <div>
           <input type="password" placeholder="Password" value={newUser.password} onChange={e => setNewUser(prev => ({ ...prev, password: e.target.value }))} />
         </div>
 
