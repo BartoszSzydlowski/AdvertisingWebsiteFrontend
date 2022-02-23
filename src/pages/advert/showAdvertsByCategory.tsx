@@ -16,7 +16,9 @@ const ShowByAdvertsCategory: React.FC = () => {
   const fetchAdvertsByCategory = () => {
     axios
       .get(
-        `${getUrl()}/api/adverts/GetAllPagedByCategoryAndAcceptStatus?PageNumber=${page}&categoryId=${params.id}&isAccepted=true`
+        `${getUrl()}/api/adverts/GetAllPagedByCategoryAndAcceptStatus?PageNumber=${page}&categoryId=${
+          params.id
+        }&isAccepted=true`
       )
       .then(response => {
         setTotalPages(response.data.totalPages);

@@ -1,6 +1,6 @@
 import isDev from './developmentCheck';
 
-const getUrl = () => {
+const getUrl = (): string => {
   let url = '';
   if (isDev()) {
     url = 'https://localhost:44320';

@@ -1,8 +1,6 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { UserDataContext } from '../App';
 import Pagination from '../components/pagination/pagination';
 import getUrl from '../endpoints/getUrl';
 import { IAdvert } from '../interfaces/advert/advert';
