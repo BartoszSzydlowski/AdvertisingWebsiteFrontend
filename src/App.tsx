@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import Routes from './Routes';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const UserDataContext = createContext({ username: '', userRole: '' });
 //export const RoleContext = createContext('');
