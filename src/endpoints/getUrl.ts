@@ -5,7 +5,8 @@ const getUrl = (): string => {
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     url = 'https://localhost:44320';
     console.log('DEV MODE');
-  } else {
+  }
+  if (process.env.NODE_ENV === 'production') {
     console.log('PROD MODE');
     url = 'XDDDDDDDDDDDDD';
   }
