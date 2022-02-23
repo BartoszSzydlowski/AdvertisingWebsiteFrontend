@@ -33,9 +33,9 @@
   },
   "scripts": {
     "heroku-prebuild": "npm install -g serve",
-    "devstart": "NODE_ENV=development && react-scripts start",
-    "start": "NODE_ENV=production && serve -s build",
-    "build": "react-scripts build",
+    "devstart": "react-scripts start",
+    "start": "serve -s build",
+    "build": "react-scripts build --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
