@@ -2,11 +2,10 @@ import process from 'process';
 
 const getUrl = (): string => {
   let url = '';
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  if (!process.env.VERCEL) {
     url = 'https://localhost:44320';
     console.log('DEV MODE');
-  }
-  if (process.env.NODE_ENV === 'production') {
+  } else {
     console.log('PROD MODE');
     url = 'XDDDDDDDDDDDDD';
   }
