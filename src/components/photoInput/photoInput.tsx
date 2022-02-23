@@ -4,11 +4,15 @@ interface IPhotoInputProps {
   onChecked: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const PhotoInput: React.FC<IPhotoInputProps> = (props) => {
+const PhotoInput: React.FC<IPhotoInputProps> = props => {
   return (
-    <div style={{ margin: '5px' }}>
-      <input type="checkbox" checked={props.checked} onChange={props.onChecked} />
-      <input type="file" className="files" />
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <input
+        type="checkbox"
+        checked={props.checked}
+        onChange={props.onChecked}
+      />
+      <input type="file" className="files form-control form-control-sm" />
     </div>
   );
 };

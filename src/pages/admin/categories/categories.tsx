@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Endpoints from '../../../endpoints/endpoints';
+import getUrl from '../../../endpoints/getUrl';
 import { ICategory } from '../../../interfaces/category/category';
 
 const Categories: React.FC = () => {
@@ -11,7 +11,8 @@ const Categories: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   const getCategories = () => {
-    axios.get(`${Endpoints.defaultEndpoint}/categories`)
+    axios
+      .get(`${getUrl()}/api/categories`)
       .then(response => {
         setCategories(response.data);
         setIsLoaded(true);
@@ -23,44 +24,76 @@ const Categories: React.FC = () => {
   };
 
   const deleteCategory = (categoryId: number, categoryName: string) => {
-    const isConfirmed = confirm(`Are you sure you want to remove ${categoryName}?`);
+    const isConfirmed = confirm(
+      `Are you sure you want to remove ${categoryName}?`
+    );
 
     if (isConfirmed) {
-      axios.delete(`${Endpoints.defaultEndpoint}/categories/${categoryId}`)
-      .then(() => {
-        toast(`Deleted category ${categoryName}`);
-      })
-      .then(() => {
-        getCategories();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      axios
+        .delete(`${getUrl()}/api/categories/${categoryId}`)
+        .then(() => {
+          toast(`Deleted category ${categoryName}`);
+        })
+        .then(() => {
+          getCategories();
+        })
+        .catch(() => {
+          toast.error(`Error removing ${categoryName}`);
+        });
     }
-  }
+  };
 
   useEffect(() => {
     getCategories();
-  }, [])
+  }, []);
 
   if (error) {
-    return <div>{error}</div>
+    return <div>{error}</div>;
   } else if (!isLoaded) {
     return <div>Loading categories...</div>;
   } else {
     return (
-      <>
-        {categories && categories.map(category => (
-          <div key={category.id} id={category.id.toString()}>
-            <Link to={`categories/${category.id}`}>{category.name}</Link>
-            <Link to={`editCategory/${category.id}`}><input type="submit" value="Edit" /></Link>
-            <input type="submit" value="Delete" onClick={(() => deleteCategory(category.id, category.name))}/>
-          </div>
-        ))}
-        <Link to="/createCategory"><input type="submit" value="Add new category"/></Link>
-      </>
-    )
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        {categories &&
+          categories.map(category => (
+            <div
+              key={category.id}
+              id={category.id.toString()}
+              style={{ margin: '5px' }}
+            >
+              <Link to={`categories/${category.id}`}>{category.name}</Link>
+              <div>
+                <Link to={`editCategory/${category.id}`}>
+                  <input className="btn btn-dark" type="submit" value="Edit" />
+                </Link>
+                <input
+                  className="btn btn-dark"
+                  type="submit"
+                  value="Delete"
+                  onClick={() => deleteCategory(category.id, category.name)}
+                />
+              </div>
+            </div>
+          ))}
+        <div>
+          <Link to="/createCategory">
+            <input
+              className="btn btn-dark"
+              type="submit"
+              value="Add new category"
+            />
+          </Link>
+        </div>
+      </div>
+    );
   }
-}
+};
 
 export default Categories;

@@ -7,7 +7,8 @@
 	"extends": [
 		"eslint:recommended",
 		"plugin:react/recommended",
-		"plugin:@typescript-eslint/recommended"
+		"plugin:@typescript-eslint/recommended",
+		"plugin:prettier/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
@@ -23,6 +24,7 @@
 	],
 	"rules": {
 		"react/react-in-jsx-scope": "off",
-		"eol-last": ["warn", "always"]
+		"eol-last": ["warn", "always"],
+		"prettier/prettier": "warn"
 	}
 }

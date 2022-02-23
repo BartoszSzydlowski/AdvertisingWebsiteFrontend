@@ -9,7 +9,7 @@ interface IBootstrapNavbarProps {
   handleLogout: () => () => void;
 }
 
-const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
+const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = props => {
   const userContext = useContext(UserDataContext);
 
   return (
@@ -31,15 +31,18 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
               <NavDropdown.Item as={Link} to="/adverts">
                 Show all
               </NavDropdown.Item>
-              <NavDropdown.Item as ={Link} to="/searchAdverts">
+              <NavDropdown.Item as={Link} to="/searchAdverts">
                 Search
               </NavDropdown.Item>
-              {userContext.userRole !== '' && userContext.userRole !== null && (
-                userContext.userRole === 'User' || userContext.userRole === 'Admin' || userContext.userRole === 'Moderator') && (
+              {userContext.userRole !== '' &&
+                userContext.userRole !== null &&
+                (userContext.userRole === 'User' ||
+                  userContext.userRole === 'Admin' ||
+                  userContext.userRole === 'Moderator') && (
                   <NavDropdown.Item as={Link} to="/createAdvert">
                     Add new advert
                   </NavDropdown.Item>
-              )}
+                )}
               {userContext.userRole !== '' && userContext.userRole !== null && (
                 <NavDropdown.Item as={Link} to="/myAdverts">
                   My adverts
@@ -81,7 +84,7 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
                     Manage adverts
                   </NavDropdown.Item>
                 </NavDropdown>
-            )}
+              )}
             {!props.isLoggedIn ? (
               <>
                 <Nav.Link as={Link} to="/login">
@@ -96,7 +99,11 @@ const BootstrapNavbar: React.FC<IBootstrapNavbarProps> = (props) => {
                 <NavDropdown.Item as={Link} to="/manageAccount">
                   Manage account
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/" onClick={props.handleLogout()}>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/"
+                  onClick={props.handleLogout()}
+                >
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>

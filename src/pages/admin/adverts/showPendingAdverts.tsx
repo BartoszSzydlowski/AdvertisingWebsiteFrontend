@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Pagination from '../../../components/pagination/pagination';
-import Endpoints from '../../../endpoints/endpoints';
+import getUrl from '../../../endpoints/getUrl';
 import { IAdvert } from '../../../interfaces/advert/advert';
 
 const ShowPendingAdverts: React.FC = () => {
@@ -16,7 +16,10 @@ const ShowPendingAdverts: React.FC = () => {
 
   const getAdverts = () => {
     //axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPaged?PageNumber=${page}&PageSize=10&Ascending=true`)
-    axios.get(`${Endpoints.defaultEndpoint}/Adverts/GetAllPagedByAcceptStatus?PageNumber=${page}&PageSize=10&Ascending=true&isAccepted=false`)
+    axios
+      .get(
+        `${getUrl()}/api/Adverts/GetAllPagedByAcceptStatus?PageNumber=${page}&PageSize=10&Ascending=true&isAccepted=false`
+      )
       .then(response => {
         setTotalPages(response.data.totalPages);
         setAdverts(response.data.data);
@@ -29,24 +32,27 @@ const ShowPendingAdverts: React.FC = () => {
   };
 
   const deleteAdvert = (advertId: number, advertName: string) => {
-    const isConfirmed = confirm(`Are you sure you want to remove ${advertName}?`);
+    const isConfirmed = confirm(
+      `Are you sure you want to remove ${advertName}?`
+    );
     const token = Cookies.get('Token');
 
     if (isConfirmed) {
-      axios.delete(`${Endpoints.defaultEndpoint}/adverts/${advertId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then(() => {
-        toast(`Successfully removed ${advertName}`)
-      })
-      .then(() => {
-        getAdverts();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      axios
+        .delete(`${getUrl()}/api/adverts/${advertId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(() => {
+          toast(`Successfully removed ${advertName}`);
+        })
+        .then(() => {
+          getAdverts();
+        })
+        .catch(() => {
+          toast.error(`Error removinhg advert ${advertName}`);
+        });
     }
   };
 
@@ -60,19 +66,42 @@ const ShowPendingAdverts: React.FC = () => {
     return <div>Loading adverts...</div>;
   } else {
     return (
-      <div>
-        <div style={{ margin: '5px' }}>
-          {adverts.map(advert => (
-            <div key={`${advert.id}`} id={`${advert.id}`}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <div>
+          {adverts.map((advert: IAdvert) => (
+            <div
+              style={{ margin: '5px' }}
+              key={`${advert.id}`}
+              id={`${advert.id}`}
+            >
               <Link to={`adverts/${advert.id}`}>{advert.name}</Link>
-              <Link to={`editAdvert/${advert.id}`}><input type="submit" value="Edit" /></Link>
-              <input type="submit" value="Delete" onClick={() => deleteAdvert(advert.id, advert.name)}/>
+              <div>
+                <Link to={`editAdvert/${advert.id}`}>
+                  <input className="btn btn-dark" type="submit" value="Edit" />
+                </Link>
+                <input
+                  style={{ margin: '5px' }}
+                  className="btn btn-dark"
+                  type="submit"
+                  value="Delete"
+                  onClick={() => deleteAdvert(advert.id, advert.name)}
+                />
+              </div>
             </div>
           ))}
         </div>
         <Pagination
           pageNumbers={totalPages}
-          onClick={(e: React.FormEvent<HTMLInputElement>) => setPage(parseInt(e.currentTarget.value))}
+          onClick={(e: React.FormEvent<HTMLInputElement>) =>
+            setPage(parseInt(e.currentTarget.value))
+          }
           activePage={page}
           setActivePage={setPage}
         />

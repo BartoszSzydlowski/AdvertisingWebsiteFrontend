@@ -1,5 +1,5 @@
 //imports
-import React from 'react'
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BootstrapNavbar from './components/navbar/navbar';
 
@@ -18,11 +18,13 @@ import EditAdvert from './pages/advert/editAdvert';
 import PagedAdverts from './pages/advert/pagedAdverts';
 import SearchAdverts from './pages/advert/searchAdverts';
 import ShowByAdvertsCategory from './pages/advert/showAdvertsByCategory';
+import ShowSearchResult from './pages/advert/showSearchResults';
 import SingleAdvert from './pages/advert/singleAdvert';
 import UserAdverts from './pages/advert/userAdverts';
 import ConfirmEmailPage from './pages/user/confirmEmail';
 import ForgotPasswordForm from './pages/user/forgotPassword';
 import LoginForm from './pages/user/loginForm';
+import ManageAccount from './pages/user/manageAccount';
 import RecoverPasswordForm from './pages/user/recoverPassword';
 import RegisterForm from './pages/user/registerForm';
 
@@ -33,16 +35,27 @@ interface IRoutesProps {
   handleLogin: (token: string, expiration: Date) => void;
 }
 
-const Routes: React.FC<IRoutesProps> = (props) => {
+const Routes: React.FC<IRoutesProps> = props => {
   return (
     <Router>
-      <BootstrapNavbar isLoggedIn={props.isLoggedIn} handleLogout={props.handleLogout} />
+      <BootstrapNavbar
+        isLoggedIn={props.isLoggedIn}
+        handleLogout={props.handleLogout}
+      />
       <Switch>
         <Route exact path="/" component={Home} />
 
         <Route path="/about" component={About} />
         <Route path="/createAdvert" component={Create} />
-        <Route path="/login" component={() => (<LoginForm handleLogin={props.handleLogin} setIsLoggedIn={props.setIsLoggedIn} />)} />
+        <Route
+          path="/login"
+          component={() => (
+            <LoginForm
+              handleLogin={props.handleLogin}
+              setIsLoggedIn={props.setIsLoggedIn}
+            />
+          )}
+        />
         <Route path="/register" component={RegisterForm} />
         <Route path="/confirmEmail" component={ConfirmEmailPage} />
         <Route path="/forgotPassword" component={ForgotPasswordForm} />
@@ -57,14 +70,17 @@ const Routes: React.FC<IRoutesProps> = (props) => {
         <Route path="/manageAdverts" component={ManageAdverts} />
         <Route path="/searchAdverts" component={SearchAdverts} />
         <Route path="/showPending" component={ShowPendingAdverts} />
+        <Route path="/search" component={ShowSearchResult} />
 
         <Route path="/categories/:id" component={SingleCategory} />
         <Route path="/categories" component={Categories} />
         <Route path="/createCategory" component={CreateCategory} />
         <Route path="/editCategory/:id" component={EditCategoryForm} />
+
+        <Route path="/manageAccount" component={ManageAccount} />
       </Switch>
     </Router>
-  )
-}
+  );
+};
 
 export default Routes;

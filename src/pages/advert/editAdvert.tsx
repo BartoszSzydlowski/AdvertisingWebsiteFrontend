@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { UserDataContext } from '../../App';
 import GetCategory from '../../components/category/categorySelect';
-import Endpoints from '../../endpoints/endpoints';
+import getUrl from '../../endpoints/getUrl';
 import { IEditAdvert } from '../../interfaces/advert/advert';
 
 const EditAdvert: React.FC = () => {
@@ -29,111 +31,188 @@ const EditAdvert: React.FC = () => {
   });
   const params = useParams<{ id: string }>();
   const history = useHistory();
+  const [errors, setErrors] = useState<string[]>([]);
+  const userContext = useContext(UserDataContext);
 
   const fetchAdvert = () => {
-    axios.get(`${Endpoints.defaultEndpoint}/adverts/${params.id}`)
-    .then(response => {
-      //console.log(response.data.data);
-      setEditAdvert(response.data.data);
-      setAdvert(response.data.data);
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
+    axios
+      .get(`${getUrl()}/api/adverts/${params.id}`)
+      .then(response => {
+        setEditAdvert(response.data.data);
+        setAdvert(response.data.data);
+      })
+      .catch(() => {
+        toast.error('Error loading advert');
+      });
+  };
 
   const putAdvert = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const token = Cookies.get('Token');
-    axios.put(`${Endpoints.defaultEndpoint}/adverts`, JSON.stringify(editAdvert), {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .then(() => {
-      history.push(`/adverts/${editAdvert.id}`);
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
+    axios
+      .put(`${getUrl()}/api/adverts`, JSON.stringify(editAdvert), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(() => {
+        history.push(`/adverts/${editAdvert.id}`);
+      })
+      .catch(error => {
+        //console.log(error.response.data.message);
+        toast.error(error.response.data.message);
+        setErrors(error.response.data.errors);
+      });
+  };
 
   useEffect(() => {
     fetchAdvert();
-  }, [])
-
-  console.log(editAdvert.categoryId);
+  }, []);
 
   return (
-    <>
-      {advert && 
-        <form onSubmit={putAdvert}>
+    <div
+      style={{
+        height: '70%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      {advert && (
+        <form
+          onSubmit={putAdvert}
+          style={{
+            border: '1px solid black',
+            borderRadius: '5px',
+            padding: '20px'
+          }}
+        >
           <table style={{ margin: '0 auto' }}>
             <tbody>
-              <tr>
+              <tr style={{ borderBottom: '10px solid transparent' }}>
                 <td>Name: </td>
-                <td>{advert.name}</td>
+                <td>
+                  <input
+                    className="form-control"
+                    type="number"
+                    value={editAdvert.price}
+                    onChange={e =>
+                      setEditAdvert(prev => ({
+                        ...prev,
+                        name: e.target.value
+                      }))
+                    }
+                  />
+                </td>
               </tr>
-              <tr>
+              <tr style={{ borderBottom: '10px solid transparent' }}>
                 <td>Price: </td>
-                <td><input type="number" value={editAdvert.price} onChange={ e => setEditAdvert(prev => ({ ...prev, price: parseInt(e.target.value) })) }/></td>
+                <td>
+                  <input
+                    className="form-control"
+                    type="number"
+                    value={editAdvert.price}
+                    onChange={e =>
+                      setEditAdvert(prev => ({
+                        ...prev,
+                        price: parseInt(e.target.value)
+                      }))
+                    }
+                  />
+                </td>
               </tr>
-              <tr>
+              <tr style={{ borderBottom: '10px solid transparent' }}>
                 <td>Description: </td>
-                <td><input type="text" value={editAdvert.description} onChange={ e => setEditAdvert(prev => ({ ...prev, description: e.target.value })) }/></td>
+                <td>
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={editAdvert.description}
+                    onChange={e =>
+                      setEditAdvert(prev => ({
+                        ...prev,
+                        description: e.target.value
+                      }))
+                    }
+                  />
+                </td>
               </tr>
-              <tr>
+              <tr style={{ borderBottom: '10px solid transparent' }}>
                 <td>Category: </td>
                 <td>
-                  <GetCategory onChange={e => { setEditAdvert(prev => ({ ...prev, categoryId: parseInt(e.target.value) })) }}
+                  <GetCategory
+                    onChange={e => {
+                      setEditAdvert(prev => ({
+                        ...prev,
+                        categoryId: parseInt(e.target.value)
+                      }));
+                    }}
                     categoryId={editAdvert.categoryId}
                   />
                 </td>
               </tr>
+              {(userContext.userRole == 'Admin' ||
+                userContext.userRole == 'Moderator') && (
+                <tr style={{ borderBottom: '10px solid transparent' }}>
+                  <td>Accept status</td>
+                  <td>
+                    <div className="btn-group btn-group-toggle">
+                      <input
+                        className="btn-check"
+                        id="isAcceptedYesOption"
+                        type="radio"
+                        checked={editAdvert.isAccepted}
+                        onChange={e =>
+                          setEditAdvert(prev => ({
+                            ...prev,
+                            isAccepted: e.target.checked
+                          }))
+                        }
+                      />
+                      <label
+                        className="btn btn-secondary"
+                        htmlFor="isAcceptedYesOption"
+                      >
+                        Yes
+                      </label>
+                      <input
+                        className="btn-check"
+                        id="isAcceptedNoOption"
+                        type="radio"
+                        checked={!editAdvert.isAccepted}
+                        onChange={e =>
+                          setEditAdvert(prev => ({
+                            ...prev,
+                            isAccepted: !e.target.checked
+                          }))
+                        }
+                      />
+                      <label
+                        id="isAcceptedYesOption"
+                        className="btn btn-secondary"
+                        htmlFor="isAcceptedNoOption"
+                      >
+                        No
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              )}
               <tr>
-                <td>Accept status</td>
-                <td>
-                  <input type="radio" checked={editAdvert.isAccepted} 
-                    onChange={ e => setEditAdvert(prev => ({ ...prev, isAccepted: e.target.checked })) }
-                  /> Yes
-                  <input type="radio" checked={!(editAdvert.isAccepted)}
-                    onChange={ e => setEditAdvert(prev => ({ ...prev, isAccepted: !e.target.checked })) }
-                  /> No
-                </td>
-              </tr>
-              <tr>
-                <td>Is promoted</td>
-                <td>
-                  <input type="radio" checked={editAdvert.isPromoted} 
-                    onChange={ e => setEditAdvert(prev => ({ ...prev, isPromoted: e.target.checked })) }
-                  /> Yes
-                  <input type="radio" checked={!(editAdvert.isPromoted)}
-                    onChange={ e => setEditAdvert(prev => ({ ...prev, isPromoted: !e.target.checked })) }
-                  /> No
-                </td>
-              </tr>
-              <tr>
-                <td>Is expired</td>
-                <td>
-                  <input type="radio" checked={editAdvert.isExpired} 
-                    onChange={ e => setEditAdvert(prev => ({ ...prev, isExpired: e.target.checked })) }
-                  /> Yes
-                  <input type="radio" checked={!(editAdvert.isExpired)}
-                    onChange={ e => setEditAdvert(prev => ({ ...prev, isExpired: !e.target.checked })) }
-                  /> No
+                <td colSpan={2}>
+                  {errors &&
+                    errors.map((error, index) => <p key={index}>{error}</p>)}
                 </td>
               </tr>
             </tbody>
           </table>
-          <input type="submit" value="Edit advert" />
+          <input className="btn btn-dark" type="submit" value="Edit advert" />
         </form>
-      }
-    </>
+      )}
+    </div>
   );
-}
+};
 
 export default EditAdvert;

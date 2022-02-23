@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { SyntheticEvent, useState } from 'react';
-import Endpoints from '../../endpoints/endpoints';
+import getUrl from '../../endpoints/getUrl';
 
 const RecoverPasswordForm: React.FC = () => {
   const [password, setPassword] = useState<string>('');
@@ -11,11 +11,6 @@ const RecoverPasswordForm: React.FC = () => {
   const email = query.get('userEmail');
   const token = query.get('token');
 
-  // useEffect(() => {
-  //   console.log(userEmail);
-  //   console.log(token);
-  // });
-
   const data = {
     email: email,
     token: token,
@@ -23,56 +18,67 @@ const RecoverPasswordForm: React.FC = () => {
     confirmPassword: confirmPassword
   };
 
-  //console.log(data);
-
   const recoverPassword = (e: SyntheticEvent) => {
     e.preventDefault();
-    axios
-      .post(
-        `${Endpoints.defaultEndpoint}/Identity/RecoverPassword`,
-        JSON.stringify(data),
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+    axios.post(
+      `${getUrl()}/api/Identity/RecoverPassword`,
+      JSON.stringify(data),
+      {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      )
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      }
+    );
   };
 
   return (
-    <div>
-      <form onSubmit={recoverPassword}>
+    <div
+      style={{
+        height: '70%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <form
+        onSubmit={recoverPassword}
+        style={{
+          border: '1px solid black',
+          padding: '20px',
+          borderRadius: '5px'
+        }}
+      >
         <table style={{ margin: '0 auto' }}>
           <tbody>
-            <tr>
+            <tr style={{ borderBottom: '10px solid transparent' }}>
               <td>New password: </td>
               <td>
                 <input
                   type="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  className="form-control"
                 />
               </td>
             </tr>
-            <tr>
+            <tr style={{ borderBottom: '10px solid transparent' }}>
               <td>Confirm password: </td>
               <td>
                 <input
                   type="password"
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
+                  className="form-control"
                 />
               </td>
             </tr>
             <tr>
-              <td>
-                <input type="submit" value="Update password" />
+              <td colSpan={2}>
+                <input
+                  type="submit"
+                  value="Update password"
+                  className="btn btn-dark"
+                />
               </td>
             </tr>
           </tbody>

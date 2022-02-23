@@ -2,12 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { IAdvert } from '../../interfaces/advert/advert';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Endpoints from '../../endpoints/endpoints';
+
+import { toast } from 'react-toastify';
+import styles from './singleAdvert.module.css';
+import 'react-alice-carousel/lib/alice-carousel.css';
+import AliceCarousel from 'react-alice-carousel';
+import getUrl from '../../endpoints/getUrl';
 
 const SingleAdvert: React.FC = () => {
   const params = useParams<{ id: string | undefined }>();
   const [advert, setAdvert] = useState<IAdvert>();
-  //console.log(params.id);
+  const [userData, setUserData] = useState<{
+    username: string;
+    email: string;
+    phoneNumber: string;
+  }>({ username: '', email: '', phoneNumber: '' });
 
   useEffect(() => {
     getAdvert();
@@ -15,36 +24,56 @@ const SingleAdvert: React.FC = () => {
 
   const getAdvert = () => {
     axios
-      .get(`${Endpoints.defaultEndpoint}/adverts/${params.id}`)
+      .get(`${getUrl()}/api/adverts/${params.id}`)
       .then(response => {
-        //console.log(response.data.data);
         setAdvert(response.data.data);
+        fetchUserData(response.data.data.userId);
+      })
+      .catch(error => {
+        console.log(error);
+        toast.error('Error loading advert');
+      });
+  };
+
+  const fetchUserData = (userId: string) => {
+    axios
+      .get(`${getUrl()}/api/identity/getuserdata?userId=${userId}`)
+      .then(response => {
+        setUserData(response.data);
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  const imagesArray = advert?.pictures.map((picture, index) => (
+    <img key={index} src={`${getUrl()}/${picture.path}`} alt={picture.path} />
+  ));
+
   return (
-    <div>
+    <div className={styles.Container}>
       {advert && (
         <>
-          <p>Id: {advert.id}</p>
-          <p>Name: {advert.name}</p>
-          <p>Description: {advert.description}</p>
-          <p>Price: {advert.price}</p>
-          <p id={advert.category.id.toString()}>
+          <h2 className={styles.Advert__Title}>{advert.name}</h2>
+          <p className={styles.Advert__Category}>
             Category: {advert.category.name}
           </p>
-          <div>
-            {advert.pictures.map((picture, index) => (
-              <img key={index} src={`https://localhost:44320/${picture.path}`} alt={`${picture.uniqueName.substring(0, picture.uniqueName.length - 4)}`} style={{ height: '50%', width: '50%' }}/>
-            ))}
+          <div className={styles.Separator}> </div>
+          <div className={styles.Container__Middle}>
+            <div className={styles.elo}>
+              <AliceCarousel autoHeight autoWidth items={imagesArray} />
+            </div>
+            <div className={styles.Advert_UserInfo}>
+              <p>📋 {userData.username}</p>
+              <p>📧 {userData.email}</p>
+              <p>📞 {userData.phoneNumber}</p>
+              <p className={styles.Advert_UserInfo_Price}>💵 {advert.price}</p>
+            </div>
           </div>
+          <div className={styles.Separator}> </div>
+          <p className={styles.Advert_Description}>{advert.description}</p>
         </>
       )}
-      {/* <p>{advert && advert.id}</p>
-      <p>{advert && advert.name}</p> */}
     </div>
   );
 };

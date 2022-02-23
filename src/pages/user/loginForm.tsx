@@ -1,17 +1,16 @@
 import React, { SyntheticEvent, useState } from 'react';
 import LoginModel from '../../interfaces/user/user';
 import axios from 'axios';
-import Endpoints from '../../endpoints/endpoints';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import getUrl from '../../endpoints/getUrl';
 
 interface ILoginFormProps {
   handleLogin: (token: string, expiration: Date) => void;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-//const LoginForm = ({ handleLogin, setIsLoggedIn }: any) => {
-const LoginForm: React.FC<ILoginFormProps> = (props) => {
+const LoginForm: React.FC<ILoginFormProps> = props => {
   const [userLogin, setUserLogin] = useState<LoginModel>({
     username: '',
     password: ''
@@ -23,15 +22,11 @@ const LoginForm: React.FC<ILoginFormProps> = (props) => {
     e.preventDefault();
     setIsPending(true);
     axios
-      .post(
-        `${Endpoints.defaultEndpoint}/Identity/Login`,
-        JSON.stringify(userLogin),
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      .post(`${getUrl()}/api/Identity/Login`, JSON.stringify(userLogin), {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      )
+      })
       .then(res => {
         setIsPending(false);
         props.setIsLoggedIn(true);
@@ -83,15 +78,18 @@ const LoginForm: React.FC<ILoginFormProps> = (props) => {
             />
           </div>
           {!isPending && (
-            <button className="btn btn-outline-secondary">Login</button>
+            <input type="submit" value="Login" className="btn btn-dark" />
           )}
           {isPending && (
-            <button className="btn btn-outline-secondary" disabled>
-              Login
-            </button>
+            <input
+              type="submit"
+              value="Login"
+              className="btn btn-dark"
+              disabled
+            />
           )}
         </form>
-        <a href="/forgotPassword">Forgot password?</a>
+        <Link to="/forgotPassword">Forgot password?</Link>
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Endpoints from '../../../endpoints/endpoints';
+import { toast } from 'react-toastify';
+import getUrl from '../../../endpoints/getUrl';
 import { ICategory } from '../../../interfaces/category/category';
 
 const SingleCategory: React.FC = () => {
@@ -10,31 +11,30 @@ const SingleCategory: React.FC = () => {
 
   const getCategory = () => {
     axios
-      .get(`${Endpoints.defaultEndpoint}/categories/${params.id}`)
+      .get(`${getUrl()}/api/categories/${params.id}`)
       .then(response => {
-        //console.log(response.data);
         setCategory(response.data);
       })
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
+        toast.error('Error loading advert');
       });
   };
-  
+
   useEffect(() => {
     getCategory();
-  }, [])
+  }, []);
 
-  return(
+  return (
     <div>
-    {category && (
-      <>
-        <p>Name: {category.name}</p>
-        <p>Description: {category.description}</p>
-        <p>Creation date: {category.creationDate}</p>
-      </>
-    )}
+      {category && (
+        <>
+          <p>Name: {category.name}</p>
+          <p>Description: {category.description}</p>
+          <p>Creation date: {category.creationDate}</p>
+        </>
+      )}
     </div>
-  ); 
-}
+  );
+};
 
 export default SingleCategory;

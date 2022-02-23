@@ -1,18 +1,17 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import Endpoints from '../../endpoints/endpoints';
+import getUrl from '../../endpoints/getUrl';
 
 const ForgotPasswordForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
-  const register = (e: React.SyntheticEvent) => {
+  const recover = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    // const url = window.location.search;
-    // const query = new URLSearchParams(url);
-    // const email = query.get('email');
     axios
       .post(
-        `${Endpoints.defaultEndpoint}/Identity/ForgotPassword?email=${email}`,
+        `${getUrl()}/api/Identity/ForgotPassword?email=${email}`,
         JSON.stringify(email),
         {
           headers: {
@@ -20,27 +19,61 @@ const ForgotPasswordForm: React.FC = () => {
           }
         }
       )
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(error => {
-        console.log(error);
+      .then(response => {
+        setMessage(response.data.message);
+        setSuccess(true);
       });
   };
 
+  if (success) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+          fontSize: '1.5rem'
+        }}
+      >
+        {message}
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <form onSubmit={register}>
+    <div
+      style={{
+        height: '70%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <form
+        onSubmit={recover}
+        style={{
+          border: '1px solid black',
+          padding: '20px',
+          borderRadius: '5px'
+        }}
+      >
         <div>
+          <label style={{ marginBottom: '10px' }}>Enter your email</label>
           <input
+            className="form-control"
             type="email"
-            placeholder="Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
         </div>
 
-        <button>Recover password</button>
+        <input
+          style={{ marginTop: '10px' }}
+          type="submit"
+          className="btn btn-dark"
+          value="Recover"
+        />
       </form>
     </div>
   );

@@ -8,7 +8,7 @@ interface IPaginationProps {
   onClick: React.MouseEventHandler<HTMLInputElement> | undefined;
 }
 
-const Pagination: React.FC<IPaginationProps> = (props) => {
+const Pagination: React.FC<IPaginationProps> = props => {
   //const [activePage, setActivePage] = useState(1);
   const pageNumbers = props.pageNumbers;
   const numbers: number[] = [];

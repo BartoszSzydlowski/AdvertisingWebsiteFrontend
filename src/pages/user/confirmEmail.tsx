@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Endpoints from '../../endpoints/endpoints';
+import getUrl from '../../endpoints/getUrl';
 
 const ConfirmEmailPage: React.FC = () => {
   const url = window.location.search;
@@ -10,15 +10,25 @@ const ConfirmEmailPage: React.FC = () => {
   const [response, setResponse] = useState<string>('');
 
   useEffect(() => {
-    axios.post(`${Endpoints.defaultEndpoint}/identity/confirmemail?email=${email}&token=${token}`)
+    axios
+      .post(
+        `${getUrl()}/api/identity/confirmemail?email=${email}&token=${token}`
+      )
       .then(response => {
-        //console.log(response);
         setResponse(response.data.message);
       });
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%,-50%)',
+        fontSize: '1.5rem'
+      }}
+    >
       <div>{response}</div>
     </div>
   );

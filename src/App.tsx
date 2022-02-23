@@ -26,8 +26,7 @@ const App: React.FC = () => {
       .then(response => {
         setUsername(response.data.username);
         setUserRole(response.data.role);
-      })
-      .catch(error => console.log(error));
+      });
   };
 
   useEffect(() => {
@@ -50,13 +49,20 @@ const App: React.FC = () => {
     setIsLoggedIn(false);
     Cookies.remove('Token');
     getUserData();
-    toast("Successfully logged out");
+    toast('Successfully logged out');
   };
 
   return (
-    <UserDataContext.Provider value={{ username: username, userRole: userRole }}>
+    <UserDataContext.Provider
+      value={{ username: username, userRole: userRole }}
+    >
       <div className="App" style={{ height: '100%' }}>
-        <Routes isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} />
+        <Routes
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          handleLogin={handleLogin}
+          handleLogout={handleLogout}
+        />
       </div>
       <ToastContainer
         position="top-right"
@@ -67,6 +73,7 @@ const App: React.FC = () => {
         rtl={false}
         pauseOnHover={false}
         theme="dark"
+        pauseOnFocusLoss={false}
       />
     </UserDataContext.Provider>
   );
