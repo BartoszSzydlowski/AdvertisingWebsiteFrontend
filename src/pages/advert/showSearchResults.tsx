@@ -111,7 +111,7 @@ const ShowSearchResult: React.FC = () => {
                   {advert.pictures[0] && (
                     <img
                       style={{ height: '10rem', padding: '20px' }}
-                      src={`https://localhost:44320/${advert.pictures[0].path}`}
+                      src={`${getUrl()}/${advert.pictures[0].path}`}
                     />
                   )}
                 </div>

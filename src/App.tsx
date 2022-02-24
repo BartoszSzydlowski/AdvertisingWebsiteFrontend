@@ -8,6 +8,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import Routes from './Routes';
 import dotenv from 'dotenv';
+import getUrl from './endpoints/getUrl';
 dotenv.config();
 
 export const UserDataContext = createContext({ username: '', userRole: '' });
@@ -20,7 +21,7 @@ const App: React.FC = () => {
 
   const getUserData = () => {
     axios
-      .get('https://localhost:44320/api/Identity/GetUserNameAndRole', {
+      .get(`${getUrl()}/api/Identity/GetUserNameAndRole`, {
         headers: {
           Authorization: `Bearer ${Cookies.get('Token')}`
         }
