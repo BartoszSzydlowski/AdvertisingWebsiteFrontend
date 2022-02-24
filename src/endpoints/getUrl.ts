@@ -1,7 +1,7 @@
 const getUrl = (): string => {
   let url = '';
   if (process.env.REACT_APP_ENV === 'production') {
-    url = 'http://titanium.zanreal.pl:20316';
+    url = 'https://titanium.zanreal.pl:20316';
   }
   if (process.env.REACT_APP_ENV === 'development') {
     url = 'https://localhost:44320';
