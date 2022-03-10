@@ -48,7 +48,7 @@ const Create: React.FC = () => {
 
     await axios
       .post(
-        `${getUrl}/api/pictures?` +
+        `${getUrl()}/api/pictures?` +
           new URLSearchParams({ advertId: advertId.toString() }),
         formData,
         {
