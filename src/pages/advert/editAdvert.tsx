@@ -96,8 +96,8 @@ const EditAdvert: React.FC = () => {
                 <td>
                   <input
                     className="form-control"
-                    type="number"
-                    value={editAdvert.price}
+                    type="text"
+                    value={editAdvert.name}
                     onChange={e =>
                       setEditAdvert(prev => ({
                         ...prev,
