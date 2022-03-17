@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -28,9 +29,15 @@ const Categories: React.FC = () => {
       `Are you sure you want to remove ${categoryName}?`
     );
 
+    const token = Cookies.get('Token');
     if (isConfirmed) {
       axios
-        .delete(`${getUrl()}/api/categories/${categoryId}`)
+        .delete(`${getUrl()}/api/categories/${categoryId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          }
+        })
         .then(() => {
           toast(`Deleted category ${categoryName}`);
         })
